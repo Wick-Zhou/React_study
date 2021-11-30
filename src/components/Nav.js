@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { BrowserRouter,NavLink,Link,Route,Switch } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { Menu, Button } from 'antd';
 import {
   AppstoreOutlined,
@@ -11,8 +11,6 @@ import {
   MailOutlined,
 } from '@ant-design/icons';
 
-import Option2 from './Option2'
-import Option3 from './Option3'
 
 const { SubMenu } = Menu;
 
@@ -21,11 +19,11 @@ export default class Nav extends Component {
     collapsed: false,
   };
 
-  // toggleCollapsed = () => {
-  //   this.setState({
-  //     collapsed: !this.state.collapsed,
-  //   });
-  // };
+  toggleCollapsed = () => {
+    this.setState({
+      collapsed: !this.state.collapsed,
+    });
+  };
 
   render() {
     return (
@@ -65,8 +63,6 @@ export default class Nav extends Component {
             </SubMenu>
           </SubMenu>
         </Menu>
-          <Route path="/option2" component={Option2}></Route>
-          <Route path="/option3" component={Option3}></Route>
       </div>
     );
   }
