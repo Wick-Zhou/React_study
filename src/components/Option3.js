@@ -1,23 +1,13 @@
 import React, { Component } from 'react'
-import store from '../redux/store'
+import {connect} from 'react-redux'
 
-export default class Option3 extends Component {
-  // constructor(props){
-  //   super(props)
-  //   this.state={num:store.getState()}
-  //   store.subscribe(this.handleChange)
-  // }
-
-  // handleChange=()=>{
-  //   this.setState({num:store.getState()})
-  // }
+class Option3 extends Component {
 
   add=()=>{
-    console.log(this.props);
-    store.dispatch(add)
+    this.props.add()
   }
-  odd=()=>{
-    // store.dispatch({type:'jian',data:11})
+  odd = () => {
+    this.props.odd()
   }
 
   render() {
@@ -25,8 +15,21 @@ export default class Option3 extends Component {
       <div>
         <button onClick={this.odd}>-</button>
         <button onClick={this.add}>+</button>
-        {store.getState()}
+        {this.props.count}
       </div>
     )
   }
 }
+
+const mapStateToProps = (state) => {
+  return state
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    add:()=>{dispatch({type:'ADD',data:1})},
+    odd:()=>{dispatch({type:'ODD',data:1})}
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Option3)

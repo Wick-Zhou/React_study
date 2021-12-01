@@ -1,13 +1,11 @@
-const initState=0
-export default function countReducer(pre,action){
-  if(pre===undefined) pre=initState
-  // console.log(pre,action);
+const initState={count:0}
+export default function countReducer(pre=initState,action){
   const {type,data}=action
   switch (type){
-    case 'jia':
-      return pre+data
-    case 'jian':
-      return pre-data
+    case 'ADD':
+      return {count : pre.count+data}
+    case 'ODD':
+      return {count : pre.count-data}
     default:
       return pre
   }
