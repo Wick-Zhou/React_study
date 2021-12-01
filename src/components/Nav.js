@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom';
-import { Menu, Button } from 'antd';
+import { Menu } from 'antd';
 import {
   AppstoreOutlined,
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
   PieChartOutlined,
   DesktopOutlined,
   ContainerOutlined,
@@ -15,31 +13,19 @@ import {
 const { SubMenu } = Menu;
 
 export default class Nav extends Component {
-  state = {
-    collapsed: false,
-  };
 
-  toggleCollapsed = () => {
-    this.setState({
-      collapsed: !this.state.collapsed,
-    });
-  };
 
   render() {
     return (
       <div style={{ width: 200 }}>
-        <Button type="primary" onClick={()=>this.props.toggleCollapsed()} style={{ marginBottom: 16 }}>
-          {React.createElement(this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined)}
-        </Button>
         <Menu
           defaultSelectedKeys={['1']}
           defaultOpenKeys={[]}
           mode="inline"
           theme="dark"
-          inlineCollapsed={this.state.collapsed}
         >
           <Menu.Item key="1" icon={<PieChartOutlined />}>
-            <NavLink to='/option1'>Option 1</NavLink>
+            <NavLink to={{pathname:'/option1',state: {name:'zhou',age:11}}}>Option 1</NavLink>
           </Menu.Item>
           
           <Menu.Item key="2" icon={<DesktopOutlined />}>

@@ -14,13 +14,6 @@ const { Header, Footer, Sider, Content } = Layout;
 
 
 export default class App extends Component {
-  state={collapsed:false};
-
-  toggle = () => {
-    this.setState({
-      collapsed: !this.state.collapsed,
-    });
-  };
 
   render() {
     return (
@@ -28,17 +21,24 @@ export default class App extends Component {
           <Layout>
             <Header><Head/></Header>
             <Layout>
-              <Sider collapsed={this.state.collapsed}><Nav toggleCollapsed={()=>this.toggle()}/></Sider>
-            <Content>
-              <Routes>
-                <Route path='/option1' element={<Main/>}></Route>
-                <Route path='/option2' element={<Option2/>}></Route>
-                <Route path='/option3' element={<Option3 />}></Route>
-                <Route path='*' element={<Navigate to='option1'/>} />
-              </Routes>
+              <Sider collapsible>
+                <Nav/>
+              </Sider>
+              <Content>
+                <Routes>
+                  <Route path='/option1' element={<Main/>}>
+                    {/* 嵌套路由规则 */}
+                    <Route path='option5' element={<Option2/>}></Route>
+                  </Route>
+                  <Route path='/option2' element={<Option2/>}></Route>
+                  <Route path='/option3' element={<Option3/>}></Route>
+                  <Route path='*' element={<Navigate to='option1'/>}></Route>
+                </Routes>
               </Content>
             </Layout>
-            <Footer><Buttom></Buttom></Footer>
+            <Footer>
+              <Buttom></Buttom>
+            </Footer>
           </Layout>
         </div>
     )

@@ -1,6 +1,12 @@
 import React, { Component } from 'react'
+// import Option2 from './Option2'
+// import Option5 from './Option5'
+// import Option1 from './Main'
+
 import { Table, Button,Popconfirm,Card,Input,InputNumber } from 'antd';
+import { NavLink,Outlet } from 'react-router-dom';
 const { Search } = Input;
+
 
 export default class Main extends Component {
 
@@ -134,11 +140,10 @@ export default class Main extends Component {
     return (
       <div>
         <Card style={{ width: 350,margin:10 }}>
-          {/* <input type="text" ref={this.keyWord} onKeyUp={this.search}/> */}
-          {/* <Input onKeyUp={this.search} ref={this.keyWord} placeholder="请输入搜索名字" style={{ width: 200,marginRight:20 }}/> */}
-          <Search placeholder="请输入用户名或地址查询" onSearch={(value)=>this.search(value)} enterButton style={{ width: 300,marginRight:20 }}/>
-          {/* <Button type='primary' onClick={this.search}>搜索</Button> */}
+          <Search allowClear placeholder="请输入用户名或地址查询" onSearch={(value)=>this.search(value)} enterButton style={{ width: 300,marginRight:20 }}/>
         </Card>
+        <NavLink to={{pathname:'/option1/option5?id=1',state: {id:1,name: 'Option'}}}><Button>option5</Button></NavLink>
+        <Card><Outlet /></Card>
         <Card style={{ width: 800,margin:10 }}>
           <h2>添加新用户</h2>
           <Input ref={this.id} placeholder="请输入ID" style={{ width: 100,marginRight:20 }}/>
@@ -146,7 +151,7 @@ export default class Main extends Component {
           <InputNumber min='0' ref={this.age} placeholder="请输入年龄" style={{ width: 100,marginRight:20 }}/>
           <Input ref={this.address} placeholder="请输入地址" style={{ width: 200,marginRight:20 }}/>
           <Button type='primary' onClick={this.addUser}>添加</Button>
-        </Card>,
+        </Card>
         <Table dataSource={dataSource} columns={columns} pagination={{ position: [this.state.postion] }} scroll={{ y: 390 }}/>
       </div>
     )
