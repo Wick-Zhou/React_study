@@ -7,7 +7,6 @@ export default class Option2 extends Component {
 
 
   render() {
-    console.log(this);
     const onFinish = (values) => {
       console.log('Success:', values);
     };

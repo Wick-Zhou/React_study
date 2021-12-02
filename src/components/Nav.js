@@ -35,7 +35,7 @@ export default class Nav extends Component {
             <NavLink to='/option3'>Option 3</NavLink>
           </Menu.Item>
           <SubMenu key="sub1" icon={<MailOutlined />} title="Navigation One">
-            <Menu.Item key="5">Option 5</Menu.Item>
+            <Menu.Item key="5"><NavLink to="/option5">Option 5</NavLink></Menu.Item>
             <Menu.Item key="6">Option 6</Menu.Item>
             <Menu.Item key="7">Option 7</Menu.Item>
             <Menu.Item key="8">Option 8</Menu.Item>
