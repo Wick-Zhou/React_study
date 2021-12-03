@@ -1,36 +1,43 @@
-const initState={key:'',name:'',count:0,price:0}
+// const initState={key:'',name:'',count:0,price:0,selected:true}
 const carList=[]
-export default function countReducer(pre=initState,action){
+export default function countReducer(pre={carList:carList},action){
   // console.log(pre,action);
-  const {type,data={key:0}} = action
-  const {key,name,price}=data
+  const {type,data={key:0},selected:isSelect} = action
+  const {key,name,price,selected}=data
   switch (type){
     case 'ADDSHOPCAR':
-      if(carList.find(item => item.key===key)===undefined){
-        carList.push({key,name,count:1,price})
+      if(pre.carList.find(item => item.key===key)===undefined){
+        pre.carList.push({key,name,count:1,price,selected})
       }else{
-        carList.find(item => item.key===key).count++
+        pre.carList.find(item => item.key===key).count++
       }
-      return {carList}
+      return {carList:pre.carList}
 
     case 'ADDCOUNT':
-      pre.carList.map(item=>{
+      let addCount = pre.carList.map(item=>{
         if(item.key===key){
           ++item.count
         }
         return item
       })
-      return {carList}
+      return {carList:addCount}
 
     case 'ODDCOUNT':
-      pre.carList.map(item=>{
+      let oddCount = pre.carList.map(item=>{
         if(item.key===key){
           item.count=item.count>1?item.count-1:1
         }
         return item
       })
-      return {carList}
+      return {carList:oddCount}
 
+    case 'DELETE':
+      let deletedShopCar=pre.carList.filter(item => item.key!==key)
+      return {carList:deletedShopCar}
+
+    case 'SELECTED':
+      // pre.carList.find(item => item.key=key).selected=isSelect
+      // return {carList:pre.carList}
     default:
       return pre
   }
