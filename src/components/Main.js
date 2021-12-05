@@ -103,13 +103,6 @@ class Main extends Component {
     this.setState({ dataSource })
   }
 
-  confirm=(key)=>{
-    console.log(key);
-    this.setState({dataSource:this.state.dataSource.filter((item)=>{
-      return item.key !==key
-    })})
-  }
-
   search=(keyWord)=>{
     if(keyWord.trim()){
       let searchData= this.state.dataSource.filter((item)=>{
@@ -138,13 +131,10 @@ class Main extends Component {
     }
   }
   
-  addShopCar=(data)=>{
+  addShopCar = (data) => {
     this.props.addShopCar(data)
   }
 
-  // changePage=(page)=>{
-  //   console.log(page,'xxx');
-  // }
   
   render() {
     // console.log(this.props);
@@ -176,14 +166,6 @@ class Main extends Component {
         title: '操作',
         dataIndex: 'key',
         key: 'key',
-        // render:(key)=>
-        // <Popconfirm
-        //   placement="topRight"
-        //   title='确定删除此条信息'
-        //   onConfirm={()=>this.confirm(key)}
-        //   okText="确定"
-        //   cancelText="取消"
-        // ><Button type='primary'>删除</Button></Popconfirm>
         render:(key,data)=><Button type='primary' onClick={()=>this.addShopCar(data)}>添加购物车</Button>
       },
     ];
@@ -278,14 +260,13 @@ class Main extends Component {
         </Card>
 
         <Table dataSource={dataSource} columns={columns} pagination={{ position: ['bottomCenter'] }}/>
-        {/* <Pagination onChange={(page)=>this.changePage(page)} simple defaultCurrent={1} total={20}/> */}
       </div>
     )
   }
 }
 
 const mapStateToProps = (state)=>{
-  return state
+  return {carList:state}
 }
 
 const mapDispatchToProps=(dispatch)=>{

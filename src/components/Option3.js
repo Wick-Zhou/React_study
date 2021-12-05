@@ -6,7 +6,8 @@ import {
   addCountAction,
   oddCountAction,
   deleteFromShopCarAction,
-  changeSelectedAction
+  changeSelectedAction,
+  changeAllSelectedAction
 } from '../redux/actions/actions'
 
 import './Option3.css'
@@ -29,6 +30,10 @@ class Option3 extends Component {
 
   changeSelected=(data,selected)=>{
     this.props.changeSelected(data,selected)
+  }
+
+  changeAllSelected=(selected)=>{
+    this.props.changeAllSelected(selected)
   }
   
   render() {
@@ -80,17 +85,21 @@ class Option3 extends Component {
       // onChange: (selectedRowKeys, selectedRows) => {
       //   console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
       // },
+      defaultSelectedRowKeys: this.props.carList.map(item => { if (item.selected === true) { return item.key } return null }),
+
       onSelect:(record, selected, selectedRows, nativeEvent)=>{
-        console.log(record, selected, selectedRows, nativeEvent);
         this.changeSelected(record,selected)
       },
-      defaultSelectedRowKeys:this.props.carList.map(item => {if(item.selected===true){return item.key}})
+      onSelectAll: (selected, selectedRows, changeRows) => {
+        // console.log(selected, selectedRows, changeRows);
+        this.changeAllSelected(selected)
+      }
     };
 
     return (
       <div>
         <Card className='totalPrice'><div>￥{this.props.carList.filter(item =>item.selected===true).reduce((pre,item)=>pre+(item.count*item.price),0)}</div></Card>
-          <Table rowKey="key" rowSelection={{
+          <Table rowSelection={{
             ...rowSelection,
         }} dataSource={this.props.carList} columns={columns} pagination={{ position: ['bottomCenter'] }}/>
       </div>
@@ -99,7 +108,7 @@ class Option3 extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return state
+  return {carList: state}
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -107,7 +116,8 @@ const mapDispatchToProps = (dispatch) => {
     add:(data)=>{dispatch(addCountAction(data))},
     odd:(data)=>{dispatch(oddCountAction(data))},
     delete:(data)=>{dispatch(deleteFromShopCarAction(data))},
-    changeSelected:(data,selected)=>{dispatch(changeSelectedAction(data,selected))}
+    changeSelected: (data, selected) => { dispatch(changeSelectedAction(data, selected)) },
+    changeAllSelected:(selected) => { dispatch(changeAllSelectedAction(selected))}
   }
 }
 

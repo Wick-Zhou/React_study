@@ -13,7 +13,6 @@ import Option5 from './components/Option5';
 const { Header, Footer, Sider, Content } = Layout;
 
 
-
 export default class App extends Component {
 
   render() {
@@ -34,7 +33,7 @@ export default class App extends Component {
                 <Route path='/option2' component={Option2}></Route>
                 <Route path='/option3' component={Option3}></Route>
                 <Route path='/option5' component={Option5}></Route>
-                <Redirect to='option1'></Redirect>
+                <Redirect to='option1' from='/'></Redirect>
               </Switch>
             </Content>
           </Layout>
