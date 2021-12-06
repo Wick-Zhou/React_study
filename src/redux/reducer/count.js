@@ -1,11 +1,20 @@
-// const initState={key:'',name:'',count:'',price:'',selected:''}
+import {
+  ADDSHOPCAR,
+  ADDCOUNT,
+  ODDCOUNT,
+  DELETE,
+  SELECTED,
+  ALLSELECTED
+} from '../actionType'
+
+
 const carList=[]
 export default function countReducer(pre=carList,action){
   // console.log(pre,action);
   const {type,selected:isSelect,data={}} = action
   const {key,name,price,selected}=data
   switch (type){
-    case 'ADDSHOPCAR':
+    case ADDSHOPCAR:
       let newState=[...pre]
       if(newState.find(item => item.key===key)===undefined){
         newState.push({key,name,count:1,price,selected})
@@ -14,7 +23,7 @@ export default function countReducer(pre=carList,action){
       }
       return newState
 
-    case 'ADDCOUNT':
+    case ADDCOUNT:
       let addCount = pre.map(item=>{
         if(item.key===key){
           ++item.count
@@ -23,7 +32,7 @@ export default function countReducer(pre=carList,action){
       })
       return addCount
 
-    case 'ODDCOUNT':
+    case ODDCOUNT:
       let oddCount = pre.map(item=>{
         if(item.key===key){
           item.count=item.count>1?item.count-1:1
@@ -32,16 +41,16 @@ export default function countReducer(pre=carList,action){
       })
       return oddCount
 
-    case 'DELETE':
+    case DELETE:
       let deletedShopCar=pre.filter(item => item.key!==key)
       return deletedShopCar
 
-    case 'SELECTED':
+    case SELECTED:
       let newState2=[...pre]
       newState2.find(item => item.key === key).selected = isSelect
       return newState2
     
-    case 'ALLSELECTED':
+    case ALLSELECTED:
       let newState3 = pre.map(item => {
         item.selected = isSelect
         return item

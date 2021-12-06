@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 // import React, { useState } from 'react';
 import {connect} from 'react-redux'
-import { Table,Card,Button } from 'antd';
+import { Table,Card,Button,Popconfirm,message } from 'antd';
 import {
   addCountAction,
   oddCountAction,
@@ -25,6 +25,7 @@ class Option3 extends Component {
   }
 
   delete=(data) => {
+    message.success('已成功删除！')
     this.props.delete(data)
   }
 
@@ -37,7 +38,7 @@ class Option3 extends Component {
   }
   
   render() {
-    // console.log(this.props);
+    // console.log(this.props)
     const columns = [
       {
         title: 'ID',
@@ -76,7 +77,16 @@ class Option3 extends Component {
         key: 'key',
         render:(key,data)=>
         <div>
-          <Button danger onClick={() =>this.delete(data)}>删除</Button>
+          <Popconfirm
+            placement="left"
+            title='你忍心不要我了吗？'
+            onConfirm={()=>this.delete(data)}
+            okText="滚一边去"
+            cancelText="算了"
+          >
+            {/* <Button danger onClick={() =>this.delete(data)}>删除</Button> */}
+            <Button danger>删除</Button>
+          </Popconfirm>
         </div>
       },
     ];
@@ -85,9 +95,13 @@ class Option3 extends Component {
       // onChange: (selectedRowKeys, selectedRows) => {
       //   console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
       // },
-      defaultSelectedRowKeys: this.props.carList.map(item => { if (item.selected === true) { return item.key } return null }),
+      defaultSelectedRowKeys: this.props.carList.map(item => { 
+        if (item.selected === true) { 
+          return item.key 
+        }return null}),
 
       onSelect:(record, selected, selectedRows, nativeEvent)=>{
+        // console.log(record, selected, selectedRows, nativeEvent);
         this.changeSelected(record,selected)
       },
       onSelectAll: (selected, selectedRows, changeRows) => {
@@ -108,7 +122,7 @@ class Option3 extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return {carList: state}
+  return {carList: state.countReducer}
 }
 
 const mapDispatchToProps = (dispatch) => {
