@@ -1,15 +1,19 @@
 import {
   LOGIN,
+  LOGOUT
 } from '../actionType'
 
-const initState=false
+const initState = { username: '', isLogin: false }
 
-export default function loginReducer(pre=initState,action){
-  const {type}=action
+export default function loginReducer(pre = initState, action) {
+  const { type, username } = action
   switch (type) {
     case LOGIN:
-      console.log(pre);
-      return pre=true
+      return {...pre, username, isLogin: true }
+
+    case LOGOUT:
+      console.log('xxx');
+      return { ...pre, isLogin: false }
 
     default:
       return pre

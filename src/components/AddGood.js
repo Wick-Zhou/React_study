@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 import { Form, Input, Button, Card } from 'antd';
 
-export default class Option2 extends Component {
+export default class AddGood extends Component {
 
 
   render() {

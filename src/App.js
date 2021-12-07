@@ -1,17 +1,20 @@
 import React, { Component } from 'react'
 import { Route, Switch,Redirect } from 'react-router-dom'
 
+import './App.css'
 import { Layout } from 'antd'
 import Head from './components/Head'
 import Nav from './components/Nav'
-import Buttom from './components/Buttom'
+import Buttom from './components/Bottom'
 // import mainRoutes from './routes/mainRoutes'
 import {connect} from 'react-redux'
-import Main from './components/Main'
-import Option3 from './components/Option3'
-import Login from './components/Login'
+import GoodsList from './components/GoodsList'
+import ShopCar from './components/ShopCar'
+import Option4 from './components/Option4'
 import Option5 from './components/Option5'
+import Login from './components/Login'
 import Detail from './components/Detail'
+
 
 const { Header, Footer, Sider, Content } = Layout
 
@@ -19,6 +22,7 @@ const { Header, Footer, Sider, Content } = Layout
 class App extends Component {
 
   render() {
+    // console.log(this.props)
     return (
       <div>
         <Layout>
@@ -34,14 +38,20 @@ class App extends Component {
             }}>
               <Nav/>
             </Sider>
-            <Content style={{ marginLeft: 200,marginTop:64 }}>
+            <Content style={{ marginLeft: 200,marginTop:64}}>
               <Switch>
-                <Route exact path='/option1' component={Main}></Route>
-                <Route exact path='/login' component={Login}></Route>
+                <Route exact path='/option1' component={GoodsList}></Route>
+                <Route exact path='/login' render={()=>{
+                  if(this.props.isLogin){
+                    return <Option4 />
+                  }else{
+                    return <Login />
+                  }
+                }}></Route>
                 {/* component={Option3} */}
                 <Route exact path='/option3' render={()=>{
                       if(this.props.isLogin){
-                        return <Option3/>
+                        return <ShopCar/>
                       }else{
                         return <Redirect to='/login'></Redirect>
                       }
@@ -71,6 +81,9 @@ class App extends Component {
           <Footer>
             <Buttom></Buttom>
           </Footer>
+          {
+            this.props.isLoading?<div className="isloading">Loading</div>:''
+          }
         </Layout>
       </div>
     )
@@ -78,7 +91,10 @@ class App extends Component {
 }
 
 const mapStateToProps=(state)=>{
-  return {isLogin:state.loginReducer}
+  return {
+    isLogin:state.loginReducer.isLogin,
+    isLoading:state.globalLoadingReducer.isLoading
+  }
 }
 
 export default connect(mapStateToProps,null)(App)

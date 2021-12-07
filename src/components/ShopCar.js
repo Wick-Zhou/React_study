@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-// import React, { useState } from 'react';
 import {connect} from 'react-redux'
 import { Table,Card,Button,Popconfirm,message } from 'antd';
 import {
@@ -10,9 +9,9 @@ import {
   changeAllSelectedAction
 } from '../redux/actions/actions'
 
-import './Option3.css'
+import './shopCar.css'
 
-class Option3 extends Component {
+class ShopCar extends Component {
 
   add=(data)=>{
     // console.log(data);
@@ -135,4 +134,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(Option3)
+export default connect(mapStateToProps,mapDispatchToProps)(ShopCar)
