@@ -11,7 +11,6 @@ class GoodsList extends Component {
 
   state = { dataSource:[]}
   form=React.createRef()
-
   componentDidMount() {
     this.props.handleLoading(true)
     getList().then( res => {
