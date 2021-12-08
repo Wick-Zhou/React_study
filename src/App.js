@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Route, Switch,Redirect } from 'react-router-dom'
 
 import './App.css'
-import { Layout } from 'antd'
+import { Layout, message } from 'antd'
 import Head from './components/Head'
 import Nav from './components/Nav'
 import Buttom from './components/Bottom'
@@ -21,8 +21,11 @@ const { Header, Footer, Sider, Content } = Layout
 
 class App extends Component {
 
+  
+  
   render() {
     // console.log(this.props)
+    
     return (
       <div>
         <Layout>

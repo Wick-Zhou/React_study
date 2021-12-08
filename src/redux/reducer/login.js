@@ -2,10 +2,15 @@ import {
   LOGIN,
   LOGOUT
 } from '../actionType'
-
-const initState = { username: '', isLogin: false }
+let sessionStorageIsLogin=window.sessionStorage.getItem('isLogin')
+let sessionStorageUsername=window.sessionStorage.getItem('username')
+const initState = { 
+  username: sessionStorageUsername||'',
+  isLogin: sessionStorageIsLogin||false
+}
 
 export default function loginReducer(pre = initState, action) {
+  // console.log(pre)
   const { type, username } = action
   switch (type) {
     case LOGIN:

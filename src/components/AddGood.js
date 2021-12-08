@@ -9,10 +9,7 @@ export default class AddGood extends Component {
     const onFinish = (values) => {
       console.log('Success:', values);
     };
-  
-    const onFinishFailed = (errorInfo) => {
-      console.log('Failed:', errorInfo);
-    };
+
     return (
       <div>
         <Card style={{marginLeft:10,marginBottom:10}}>
@@ -26,7 +23,6 @@ export default class AddGood extends Component {
               span: 16,
             }}
             onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
             autoComplete="off"
             style={{marginTop:20,marginLeft:20}}
           >

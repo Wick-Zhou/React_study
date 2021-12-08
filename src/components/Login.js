@@ -17,6 +17,8 @@ function Login(props) {
         message.success('登陆成功！')
         props.login(username)
         props.history.push('/option3')
+        window.sessionStorage.setItem('isLogin',true)
+        window.sessionStorage.setItem('username',username)
       }else{
         message.error('账号或密码错误！')
       }

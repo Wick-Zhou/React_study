@@ -1,4 +1,4 @@
-import {createStore,combineReducers} from 'redux'
+import {createStore,combineReducers,compose} from 'redux'
 import countReducer from './reducer/count'
 import loginReducer from './reducer/login'
 import globalLoadingReducer from './reducer/globalLoading'
@@ -9,5 +9,12 @@ const rootReducer=combineReducers({
   globalLoadingReducer
 })
 
-const store = createStore(rootReducer)
+const composeEnhancers =
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
+        window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({}) : compose;
+// const enhancer = composeEnhancers(
+//     applyMiddleware(thunk)
+// )
+
+const store = createStore(rootReducer,composeEnhancers())
 export default store
