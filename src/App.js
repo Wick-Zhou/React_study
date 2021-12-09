@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Route, Switch,Redirect } from 'react-router-dom'
 
 import './App.css'
-import { Layout, message } from 'antd'
+import { Layout } from 'antd'
 import Head from './components/Head'
 import Nav from './components/Nav'
 import Buttom from './components/Bottom'
@@ -51,7 +51,6 @@ class App extends Component {
                     return <Login />
                   }
                 }}></Route>
-                {/* component={Option3} */}
                 <Route exact path='/option3' render={()=>{
                       if(this.props.isLogin){
                         return <ShopCar/>
@@ -61,23 +60,12 @@ class App extends Component {
                     }}></Route>
                 <Route exact path='/option5' component={Option5}></Route>
                 <Route exact path='/option1/detail/:title' component={Detail}></Route>
-                {/* <Redirect to='option1' from='/'></Redirect> */}
+                <Redirect to='option1' from='/'></Redirect>
                 {/* {
                   mainRoutes.map(item=>
                     <Route key={item} path={item.path} component={item.component}></Route>
                   )
-                  
-                  
                 } */}
-                {/* render={()=>{
-                      if(this.props.isLogin){
-                        const {component}=item
-                        return <component/>
-                      }else{
-                        return <Redirect to='/login'></Redirect>
-                      }
-                    }} */}
-                {/* <Redirect to='option1' from='/'></Redirect> */}
               </Switch>
             </Content>
           </Layout>

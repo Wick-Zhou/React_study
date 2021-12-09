@@ -35,6 +35,15 @@ class GoodsList extends Component {
         return false
       })
       this.setState({ dataSource:searchData})
+    }else{
+      this.props.handleLoading(true)
+      getList().then( res => {
+        this.setState({dataSource:res.data.list})
+      })
+      .catch(err => {})
+      .finally(() => {
+        this.props.handleLoading(false)
+      })
     }
   }
 

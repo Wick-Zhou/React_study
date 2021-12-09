@@ -1,30 +1,40 @@
 import React from 'react'
-import {Form, Input, Button, Checkbox,message} from'antd'
+import { Form, Input, Button, Checkbox, message } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import {connect} from 'react-redux'
-import {loginAction, isloadingAction} from '../redux/actions/actions'
-import {withRouter} from 'react-router-dom'
-import {getLogin} from '../service/api'
+import { connect } from 'react-redux'
+import { loginAction, isloadingAction } from '../redux/actions/actions'
+import { withRouter } from 'react-router-dom'
+import { getLogin } from '../service/api'
 
 function Login(props) {
   // console.log(props);
   const onFinish = (values) => {
     // console.log(values)
-    const {username, password} = values
+    const { username } = values
     props.handleLoading(true)
-    getLogin().then(res =>{
-      if(res.data.account.find(item=>item.username===username&&item.password===password)){
-        message.success('登陆成功！')
+    getLogin(JSON.stringify(values)).then(res => {
+      // console.log(res)
+      if (res.data.isLogin) {
+        message.success(res.data.msg)
         props.login(username)
         props.history.push('/option3')
-        window.sessionStorage.setItem('isLogin',true)
-        window.sessionStorage.setItem('username',username)
-      }else{
-        message.error('账号或密码错误！')
+        window.sessionStorage.setItem('isLogin', true)
+        window.sessionStorage.setItem('username', username)
+      } else {
+        message.error(res.data.msg)
       }
+      // if(res.data.account.find(item=>item.username===username&&item.password===password)){
+      //   message.success('登陆成功！')
+      //   props.login(username)
+      //   props.history.push('/option3')
+      //   window.sessionStorage.setItem('isLogin',true)
+      //   window.sessionStorage.setItem('username',username)
+      // }else{
+      //   message.error('账号或密码错误！')
+      // }
     })
-    .catch(err =>{})
-    .finally(()=>{props.handleLoading(false)})
+      .catch(err => { })
+      .finally(() => { props.handleLoading(false) })
   }
 
   return (
@@ -34,7 +44,7 @@ function Login(props) {
         className="login-form"
         initialValues={{ remember: true }}
         onFinish={onFinish}
-        style={{width:300,margin:'auto',marginTop:30}}
+        style={{ width: 300, margin: 'auto', marginTop: 30 }}
       >
         <Form.Item
           name="username"
@@ -52,29 +62,29 @@ function Login(props) {
             placeholder="Password"
           />
         </Form.Item>
-        <div style={{display: 'flex', justifyContent: 'space-between'}}>
-          <Form.Item style={{width:140}}>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Form.Item style={{ width: 140 }}>
             <Form.Item name="remember" valuePropName="checked" noStyle>
               <Checkbox>Remember me</Checkbox>
             </Form.Item>
           </Form.Item>
-          <Form.Item style={{width:70}}>
+          <Form.Item style={{ width: 70 }}>
             <Button type="primary" htmlType="submit" className="login-form-button">
               Log in
             </Button>
           </Form.Item>
-          </div>
+        </div>
       </Form>
     </div>
   )
 }
 
-const mapDispatchToProps=(dispatch)=>{
+const mapDispatchToProps = (dispatch) => {
   return {
-    login:(username)=>{dispatch(loginAction(username))},
-    handleLoading:(data)=>{dispatch(isloadingAction(data))}
+    login: (username) => { dispatch(loginAction(username)) },
+    handleLoading: (data) => { dispatch(isloadingAction(data)) }
   }
 }
 
 
-export default connect(null,mapDispatchToProps)(withRouter(Login))
+export default connect(null, mapDispatchToProps)(withRouter(Login))

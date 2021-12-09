@@ -17,8 +17,7 @@ export default function loginReducer(pre = initState, action) {
       return {...pre, username, isLogin: true }
 
     case LOGOUT:
-      console.log('xxx');
-      return { ...pre, isLogin: false }
+      return { ...pre, username:'', isLogin: false }
 
     default:
       return pre
