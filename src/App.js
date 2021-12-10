@@ -14,18 +14,12 @@ import Option4 from './components/Option4'
 import Option5 from './components/Option5'
 import Login from './components/Login'
 import Detail from './components/Detail'
-
-
 const { Header, Footer, Sider, Content } = Layout
 
 
 class App extends Component {
 
-  
-  
   render() {
-    // console.log(this.props)
-    
     return (
       <div>
         <Layout>
@@ -72,6 +66,7 @@ class App extends Component {
           <Footer>
             <Buttom></Buttom>
           </Footer>
+          {/* 全局的请求加载效果 */}
           {
             this.props.isLoading?<div className="isloading">Loading</div>:''
           }

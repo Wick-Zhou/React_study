@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { NavLink,withRouter } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import { Menu } from 'antd';
 import {
   AppstoreOutlined,
@@ -15,6 +15,9 @@ const { SubMenu } = Menu;
 class Nav extends Component {
 
   render() {
+    const { pathname } = this.props.history.location
+    // 用于导航栏高亮
+    const navKey = pathname.substring(0, pathname.slice(1).indexOf('/') + 1) || pathname
     // console.log(this.props);
     return (
       <div style={{ width: 200 }}>
@@ -23,12 +26,12 @@ class Nav extends Component {
           // defaultOpenKeys={[]}
           mode="inline"
           theme="dark"
-          selectedKeys={[this.props.history.location.pathname]}
+          selectedKeys={[navKey]}
         >
           <Menu.Item key="/option1" icon={<PieChartOutlined />}>
-            <NavLink to={{pathname:'/option1'}}>商品列表</NavLink>
+            <NavLink to={{ pathname: '/option1' }}>商品列表</NavLink>
           </Menu.Item>
-          
+
           <Menu.Item key="/login" icon={<DesktopOutlined />}>
             <NavLink to='/login'>登录</NavLink>
           </Menu.Item>
