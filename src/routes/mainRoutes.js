@@ -1,24 +1,24 @@
-import Main from '../components/Main'
+import GoodsList from '../components/GoodsList'
 import Login from '../components/Login'
-import Option3 from '../components/Option3'
+import ShopCar from '../components/ShopCar'
 import Option5 from '../components/Option5'
 
-const mainRoutes=[
+const mainRoutes = [
   {
-    path:"/option1",
-    component:Main,
+    path: '/option1',
+    component: GoodsList,
   },
   {
-    path:"/login",
-    component:Login,
+    path: '/login',
+    component: Login,
   },
   {
-    path:"/option3",
-    component:Option3,
+    path: '/option3',
+    component: ShopCar,
   },
   {
-    path:"/option5",
-    component:Option5,
+    path: '/option5',
+    component: Option5,
   },
 ]
 

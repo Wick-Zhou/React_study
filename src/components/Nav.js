@@ -1,19 +1,19 @@
-import React, { Component } from 'react'
-import { NavLink, withRouter } from 'react-router-dom';
-import { Menu } from 'antd';
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/prop-types */
+import React, { PureComponent } from 'react'
+import { NavLink, withRouter } from 'react-router-dom'
+import { Menu } from 'antd'
 import {
   AppstoreOutlined,
   PieChartOutlined,
   DesktopOutlined,
   ContainerOutlined,
   MailOutlined,
-} from '@ant-design/icons';
+} from '@ant-design/icons'
 
+const { SubMenu } = Menu
 
-const { SubMenu } = Menu;
-
-class Nav extends Component {
-
+class Nav extends PureComponent {
   render() {
     const { pathname } = this.props.history.location
     // 用于导航栏高亮
@@ -33,10 +33,10 @@ class Nav extends Component {
           </Menu.Item>
 
           <Menu.Item key="/login" icon={<DesktopOutlined />}>
-            <NavLink to='/login'>登录</NavLink>
+            <NavLink to="/login">登录</NavLink>
           </Menu.Item>
           <Menu.Item key="/option3" icon={<ContainerOutlined />}>
-            <NavLink to='/option3'>购物车</NavLink>
+            <NavLink to="/option3">购物车</NavLink>
           </Menu.Item>
           <SubMenu key="sub1" icon={<MailOutlined />} title="Navigation One">
             <Menu.Item key="/option5"><NavLink to="/option5">Option 5</NavLink></Menu.Item>
@@ -54,7 +54,7 @@ class Nav extends Component {
           </SubMenu>
         </Menu>
       </div>
-    );
+    )
   }
 }
 

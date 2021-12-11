@@ -1,3 +1,4 @@
+/* eslint-disable default-param-last */
 import { ISLOADING } from '../actionType'
 
 const initState = { isLoading: false }

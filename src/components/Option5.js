@@ -1,15 +1,18 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import {
   PauseOutlined,
   StepBackwardOutlined,
-  StepForwardOutlined
+  StepForwardOutlined,
 } from '@ant-design/icons'
 
-export default class Option5 extends Component {
+export default class Option5 extends PureComponent {
   render() {
     return (
       <div>
-        <div style={{backgroundColor: 'pink',height: 50,display:'flex',justifyContent: 'center',alignItems: 'center'}}>
+        <div style={{
+          backgroundColor: 'pink', height: 50, display: 'flex', justifyContent: 'center', alignItems: 'center',
+        }}
+        >
           <div>
             <StepBackwardOutlined />
             <PauseOutlined />

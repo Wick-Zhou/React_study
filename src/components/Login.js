@@ -1,12 +1,16 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable react/destructuring-assignment */
 import React, { useState } from 'react'
-import { Form, Input, Button, Checkbox, message, Modal } from 'antd'
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import {
+  Form, Input, Button, Checkbox, message, Modal,
+} from 'antd'
+import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import { connect } from 'react-redux'
-import { loginAction, isloadingAction } from '../redux/actions/actions'
 import { withRouter } from 'react-router-dom'
+import { loginAction, isloadingAction } from '../redux/actions/actions'
 import { getLogin, getRegister } from '../service/api'
 
-function Login(props) {
+const Login = function Login(props) {
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [registerLoading, setRegisterLoading] = useState(false)
   // console.log(props);
@@ -14,7 +18,7 @@ function Login(props) {
     // console.log(values)
     const { username } = values
     props.handleLoading(true)
-    getLogin(JSON.stringify(values)).then(res => {
+    getLogin(JSON.stringify(values)).then((res) => {
       // console.log(res)
       if (res.data.isLogin) {
         message.success(res.data.msg)
@@ -26,7 +30,7 @@ function Login(props) {
         message.error(res.data.msg)
       }
     })
-      .catch(err => { console.log(err) })
+      .catch(() => { })
       .finally(() => { props.handleLoading(false) })
   }
 
@@ -45,15 +49,15 @@ function Login(props) {
     setRegisterLoading(true)
     getRegister(JSON.stringify(values)).then((res) => {
       // console.log(res)
-      const {data:{isSuccess,msg}}=res
-      if(isSuccess){
+      const { data: { isSuccess, msg } } = res
+      if (isSuccess) {
         message.success(msg)
         setIsModalVisible(false)
-      }else{
+      } else {
         message.error(msg)
       }
       setRegisterLoading(false)
-    }).catch(err => { console.log(err) })
+    }).catch(() => { })
   }
 
   return (
@@ -96,18 +100,17 @@ function Login(props) {
         </div>
       </Form>
 
-
       <Modal
         title="喜提账号一枚!"
         visible={isModalVisible}
         onCancel={handleCancel}
-        cancelText='取消'
+        cancelText="取消"
         footer={[
           <Button key="back" onClick={handleCancel}>
             取消
-          </Button>
+          </Button>,
         ]}
-        destroyOnClose='true'
+        destroyOnClose="true"
       >
         <Form
           name="normal_register"
@@ -144,12 +147,9 @@ function Login(props) {
   )
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    login: (username) => { dispatch(loginAction(username)) },
-    handleLoading: (data) => { dispatch(isloadingAction(data)) }
-  }
-}
-
+const mapDispatchToProps = (dispatch) => ({
+  login: (username) => { dispatch(loginAction(username)) },
+  handleLoading: (data) => { dispatch(isloadingAction(data)) },
+})
 
 export default connect(null, mapDispatchToProps)(withRouter(Login))

@@ -7,5 +7,3 @@ export const ALLSELECTED = 'ALLSELECTED'
 export const LOGIN = 'LOGIN'
 export const ISLOADING = 'ISLOADING'
 export const LOGOUT = 'LOGOUT'
-
-

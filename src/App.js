@@ -1,60 +1,70 @@
-import React, { Component } from 'react'
-import { Route, Switch,Redirect } from 'react-router-dom'
+/* eslint-disable react/prop-types */
+/* eslint-disable react/destructuring-assignment */
+import React, { PureComponent } from 'react'
+import { Route, Switch, Redirect } from 'react-router-dom'
 
 import './App.css'
 import { Layout } from 'antd'
+import { connect } from 'react-redux'
 import Head from './components/Head'
 import Nav from './components/Nav'
 import Buttom from './components/Bottom'
 // import mainRoutes from './routes/mainRoutes'
-import {connect} from 'react-redux'
 import GoodsList from './components/GoodsList'
 import ShopCar from './components/ShopCar'
 import Option4 from './components/Option4'
 import Option5 from './components/Option5'
 import Login from './components/Login'
 import Detail from './components/Detail'
-const { Header, Footer, Sider, Content } = Layout
 
+const {
+  Header, Footer, Sider, Content,
+} = Layout
 
-class App extends Component {
-
+class App extends PureComponent {
   render() {
     return (
       <div>
         <Layout>
-          <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}><Head/></Header>
+          <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}><Head /></Header>
           <Layout>
             <Sider
-            style={{
-              overflow: 'auto',
-              height: '100vh',
-              position: 'fixed',
-              left: 0,
-              top:64
-            }}>
-              <Nav/>
+              style={{
+                overflow: 'auto',
+                height: '100vh',
+                position: 'fixed',
+                left: 0,
+                top: 64,
+              }}
+            >
+              <Nav />
             </Sider>
-            <Content style={{ marginLeft: 200,marginTop:64}}>
+            <Content style={{ marginLeft: 200, marginTop: 64 }}>
               <Switch>
-                <Route exact path='/option1' component={GoodsList}></Route>
-                <Route exact path='/login' render={()=>{
-                  if(this.props.isLogin){
-                    return <Option4 />
-                  }else{
+                <Route exact path="/option1" component={GoodsList} />
+                <Route
+                  exact
+                  path="/login"
+                  render={() => {
+                    if (this.props.isLogin) {
+                      return <Option4 />
+                    }
                     return <Login />
-                  }
-                }}></Route>
-                <Route exact path='/option3' render={()=>{
-                      if(this.props.isLogin){
-                        return <ShopCar/>
-                      }else{
-                        return <Redirect to='/login'></Redirect>
-                      }
-                    }}></Route>
-                <Route exact path='/option5' component={Option5}></Route>
-                <Route exact path='/option1/detail/:title' component={Detail}></Route>
-                <Redirect to='option1' from='/'></Redirect>
+                  }}
+                />
+                <Route
+                  exact
+                  path="/option3"
+                  render={() => {
+                    if (this.props.isLogin) {
+                      return <ShopCar />
+                    }
+                    return <Redirect to="/login" />
+                  }}
+                />
+                <Route exact path="/option5" component={Option5} />
+                <Route exact path="/option1/detail/:title" component={Detail} />
+                <Redirect to="option1" from="/" />
                 {/* {
                   mainRoutes.map(item=>
                     <Route key={item} path={item.path} component={item.component}></Route>
@@ -64,11 +74,11 @@ class App extends Component {
             </Content>
           </Layout>
           <Footer>
-            <Buttom></Buttom>
+            <Buttom />
           </Footer>
           {/* 全局的请求加载效果 */}
           {
-            this.props.isLoading?<div className="isloading">Loading</div>:''
+            this.props.isLoading ? <div className="isloading">Loading</div> : ''
           }
         </Layout>
       </div>
@@ -76,11 +86,9 @@ class App extends Component {
   }
 }
 
-const mapStateToProps=(state)=>{
-  return {
-    isLogin:state.loginReducer.isLogin,
-    isLoading:state.globalLoadingReducer.isLoading
-  }
-}
+const mapStateToProps = (state) => ({
+  isLogin: state.loginReducer.isLogin,
+  isLoading: state.globalLoadingReducer.isLoading,
+})
 
-export default connect(mapStateToProps,null)(App)
+export default connect(mapStateToProps, null)(App)
