@@ -1,43 +1,62 @@
-// const initState={key:'',name:'',count:0,price:0,selected:true}
+import {
+  ADDSHOPCAR,
+  ADDCOUNT,
+  ODDCOUNT,
+  DELETE,
+  SELECTED,
+  ALLSELECTED
+} from '../actionType'
+
+
 const carList=[]
-export default function countReducer(pre={carList:carList},action){
+export default function countReducer(pre=carList,action){
   // console.log(pre,action);
-  const {type,data={key:0},selected:isSelect} = action
+  const {type,selected:isSelect,data={}} = action
   const {key,name,price,selected}=data
   switch (type){
-    case 'ADDSHOPCAR':
-      if(pre.carList.find(item => item.key===key)===undefined){
-        pre.carList.push({key,name,count:1,price,selected})
+    case ADDSHOPCAR:
+      let newState=[...pre]
+      if(newState.find(item => item.key===key)===undefined){
+        newState.push({key,name,count:1,price,selected})
       }else{
-        pre.carList.find(item => item.key===key).count++
+        newState.find(item => item.key===key).count++
       }
-      return {carList:pre.carList}
+      return newState
 
-    case 'ADDCOUNT':
-      let addCount = pre.carList.map(item=>{
+    case ADDCOUNT:
+      let addCount = pre.map(item=>{
         if(item.key===key){
           ++item.count
         }
         return item
       })
-      return {carList:addCount}
+      return addCount
 
-    case 'ODDCOUNT':
-      let oddCount = pre.carList.map(item=>{
+    case ODDCOUNT:
+      let oddCount = pre.map(item=>{
         if(item.key===key){
           item.count=item.count>1?item.count-1:1
         }
         return item
       })
-      return {carList:oddCount}
+      return oddCount
 
-    case 'DELETE':
-      let deletedShopCar=pre.carList.filter(item => item.key!==key)
-      return {carList:deletedShopCar}
+    case DELETE:
+      let deletedShopCar=pre.filter(item => item.key!==key)
+      return deletedShopCar
 
-    case 'SELECTED':
-      // pre.carList.find(item => item.key=key).selected=isSelect
-      // return {carList:pre.carList}
+    case SELECTED:
+      let newState2=[...pre]
+      newState2.find(item => item.key === key).selected = isSelect
+      return newState2
+    
+    case ALLSELECTED:
+      let newState3 = pre.map(item => {
+        item.selected = isSelect
+        return item
+      })
+      return newState3
+    
     default:
       return pre
   }

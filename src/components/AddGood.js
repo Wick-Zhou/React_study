@@ -2,17 +2,14 @@ import React, { Component } from 'react'
 
 import { Form, Input, Button, Card } from 'antd';
 
-export default class Option2 extends Component {
+export default class AddGood extends Component {
 
 
   render() {
     const onFinish = (values) => {
       console.log('Success:', values);
     };
-  
-    const onFinishFailed = (errorInfo) => {
-      console.log('Failed:', errorInfo);
-    };
+
     return (
       <div>
         <Card style={{marginLeft:10,marginBottom:10}}>
@@ -26,7 +23,6 @@ export default class Option2 extends Component {
               span: 16,
             }}
             onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
             autoComplete="off"
             style={{marginTop:20,marginLeft:20}}
           >

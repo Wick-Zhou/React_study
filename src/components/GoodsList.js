@@ -1,113 +1,29 @@
 import React, { Component } from 'react'
+import { Table, Button,Card,Input,Form, message } from 'antd'
 import {connect} from 'react-redux'
-
-import { Table, Button,Card,Input,Form, message } from 'antd';
-
-import {addShopCarAction} from '../redux/actions/actions'
+import {addShopCarAction,isloadingAction} from '../redux/actions/actions'
+import {getList} from '../service/api'
+import { NavLink } from 'react-router-dom'
 
 const { Search } = Input;
 
-class Main extends Component {
+class GoodsList extends Component {
 
   state = { dataSource:[]}
   form=React.createRef()
-
   componentDidMount() {
-    const dataSource = [
-      {
-        key: '1',
-        name: '胡彦斌',
-        price: 32,
-        address: '西湖区湖底公园1号',
-        selected: true,
-      },
-      {
-        key: '2',
-        name: '胡彦祖',
-        price: 42,
-        address: '西湖区湖底公园2号',
-        selected: true,
-      },
-      {
-        key: '3',
-        name: '马云',
-        price: 46,
-        address: '西湖区湖底公园3号',
-        selected: true,
-      },
-      {
-        key: '4',
-        name: '马化腾',
-        price: 40,
-        address: '深圳腾讯大厦4号',
-        selected: true,
-      },
-      {
-        key: '5',
-        name: '任正非',
-        price: 52,
-        address: '西湖区湖底公园5号',
-        selected: true,
-      },
-      {
-        key: '6',
-        name: '周杰伦',
-        price: 40,
-        address: '香港尖沙咀5号',
-        selected: true,
-      },
-      {
-        key: '7',
-        name: 'React',
-        price: 20,
-        address: 'Facebook',
-        selected: true,
-      },
-      {
-        key: '8',
-        name: 'Vue',
-        price: 10,
-        address: '尤雨溪',
-        selected: true,
-      },
-      {
-        key: '9',
-        name: 'iphone13',
-        price: 5999,
-        address: 'Apple',
-        selected: true,
-      },
-      {
-        key: '10',
-        name: 'MacBook 2021 pro',
-        price: 19999,
-        address: 'Apple',
-        selected: true,
-      },
-      {
-        key: '11',
-        name: 'Xiaomi 11 ultra',
-        price: 4999,
-        address: 'Xiaomi',
-        selected: true,
-      },
-      {
-        key: '12',
-        name: 'Oneplus 9 pro',
-        price: 4299,
-        address: 'Oneplus',
-        selected: true,
-      },
-      
-    ]
-    this.setState({ dataSource })
+    this.props.handleLoading(true)
+    getList().then( res => {
+      this.setState({dataSource:res.data.list})
+    })
+    .catch(err => {})
+    .finally(() => {
+      this.props.handleLoading(false)
+    })
   }
 
-  confirm=(key)=>{
-    console.log(key);
-    this.setState({dataSource:this.state.dataSource.filter((item)=>{
-      return item.key !==key
-    })})
+  componentWillUnmount(){
+    this.setState=()=>false
   }
 
   search=(keyWord)=>{
@@ -119,6 +35,15 @@ class Main extends Component {
         return false
       })
       this.setState({ dataSource:searchData})
+    }else{
+      this.props.handleLoading(true)
+      getList().then( res => {
+        this.setState({dataSource:res.data.list})
+      })
+      .catch(err => {})
+      .finally(() => {
+        this.props.handleLoading(false)
+      })
     }
   }
 
@@ -132,19 +57,21 @@ class Main extends Component {
         selected:true
       }
       this.setState({dataSource:[...this.state.dataSource, newObj]})
+      message.success('已添加成功！')
       this.form.current.resetFields()
     }else{
       message.error('已存在相同的Key，请重试！')
     }
   }
   
-  addShopCar=(data)=>{
-    this.props.addShopCar(data)
+  addShopCar = (data) => {
+    if(this.props.isLogin){
+      this.props.addShopCar(data)
+    }else{
+      message.warning('请登录后尝试！')
+    }
   }
 
-  // changePage=(page)=>{
-  //   console.log(page,'xxx');
-  // }
   
   render() {
     // console.log(this.props);
@@ -152,38 +79,31 @@ class Main extends Component {
 
     const columns = [
       {
-        title: 'ID',
+        title: 'Key',
         dataIndex: 'key',
-        key: 'key',
+        // key: 'key',
         // render:(text,record,index)=>`${index+1}`
       },
       {
         title: '姓名',
         dataIndex: 'name',
-        key: 'name',
+        // key: 'name',
+        render:(a,b)=><NavLink to={`option1/detail/${a}`}>{a}</NavLink>
       },
       {
         title: '价格',
         dataIndex: 'price',
-        key: 'price',
+        // key: 'price',
       },
       {
         title: '住址',
         dataIndex: 'address',
-        key: 'address',
+        // key: 'address',
       },
       {
         title: '操作',
         dataIndex: 'key',
-        key: 'key',
-        // render:(key)=>
-        // <Popconfirm
-        //   placement="topRight"
-        //   title='确定删除此条信息'
-        //   onConfirm={()=>this.confirm(key)}
-        //   okText="确定"
-        //   cancelText="取消"
-        // ><Button type='primary'>删除</Button></Popconfirm>
+        // key: 'key',
         render:(key,data)=><Button type='primary' onClick={()=>this.addShopCar(data)}>添加购物车</Button>
       },
     ];
@@ -191,11 +111,7 @@ class Main extends Component {
     const onFinish = (values) => {
       // console.log('Success:', values);
       this.addUser(values)
-    };
-  
-    const onFinishFailed = (errorInfo) => {
-      message.error('Failed:', errorInfo);
-    };
+    }
 
     return (
       <div>
@@ -215,7 +131,6 @@ class Main extends Component {
               span: 16,
             }}
             onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
             autoComplete="off"
             style={{marginTop:20,marginLeft:20}}
           >
@@ -278,20 +193,21 @@ class Main extends Component {
         </Card>
 
         <Table dataSource={dataSource} columns={columns} pagination={{ position: ['bottomCenter'] }}/>
-        {/* <Pagination onChange={(page)=>this.changePage(page)} simple defaultCurrent={1} total={20}/> */}
       </div>
     )
   }
 }
 
 const mapStateToProps = (state)=>{
-  return state
+  return { carList: state.countReducer, isLogin: state.loginReducer.isLogin }
 }
 
 const mapDispatchToProps=(dispatch)=>{
   return {
-    addShopCar:(data)=>{dispatch(addShopCarAction(data));},
+    addShopCar:(data)=>{dispatch(addShopCarAction(data))},
+    handleLoading:(data)=>{dispatch(isloadingAction(data))}
   }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(Main)
+
+export default connect(mapStateToProps,mapDispatchToProps)(GoodsList)

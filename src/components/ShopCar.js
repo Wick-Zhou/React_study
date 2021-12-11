@@ -1,17 +1,17 @@
 import React, { Component } from 'react'
-// import React, { useState } from 'react';
 import {connect} from 'react-redux'
-import { Table,Card,Button } from 'antd';
+import { Table,Card,Button,Popconfirm,message } from 'antd';
 import {
   addCountAction,
   oddCountAction,
   deleteFromShopCarAction,
-  changeSelectedAction
+  changeSelectedAction,
+  changeAllSelectedAction
 } from '../redux/actions/actions'
 
-import './Option3.css'
+import './shopCar.css'
 
-class Option3 extends Component {
+class ShopCar extends Component {
 
   add=(data)=>{
     // console.log(data);
@@ -24,15 +24,20 @@ class Option3 extends Component {
   }
 
   delete=(data) => {
+    message.success('已成功删除！')
     this.props.delete(data)
   }
 
   changeSelected=(data,selected)=>{
     this.props.changeSelected(data,selected)
   }
+
+  changeAllSelected=(selected)=>{
+    this.props.changeAllSelected(selected)
+  }
   
   render() {
-    // console.log(this.props);
+    // console.log(this.props)
     const columns = [
       {
         title: 'ID',
@@ -71,7 +76,16 @@ class Option3 extends Component {
         key: 'key',
         render:(key,data)=>
         <div>
-          <Button danger onClick={() =>this.delete(data)}>删除</Button>
+          <Popconfirm
+            placement="left"
+            title='你忍心不要我了吗？'
+            onConfirm={()=>this.delete(data)}
+            okText="滚一边去"
+            cancelText="算了"
+          >
+            {/* <Button danger onClick={() =>this.delete(data)}>删除</Button> */}
+            <Button danger>删除</Button>
+          </Popconfirm>
         </div>
       },
     ];
@@ -80,17 +94,25 @@ class Option3 extends Component {
       // onChange: (selectedRowKeys, selectedRows) => {
       //   console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
       // },
+      defaultSelectedRowKeys: this.props.carList.map(item => { 
+        if (item.selected === true) { 
+          return item.key 
+        }return null}),
+
       onSelect:(record, selected, selectedRows, nativeEvent)=>{
-        console.log(record, selected, selectedRows, nativeEvent);
+        // console.log(record, selected, selectedRows, nativeEvent);
         this.changeSelected(record,selected)
       },
-      defaultSelectedRowKeys:this.props.carList.map(item => {if(item.selected===true){return item.key}})
+      onSelectAll: (selected, selectedRows, changeRows) => {
+        // console.log(selected, selectedRows, changeRows);
+        this.changeAllSelected(selected)
+      }
     };
 
     return (
       <div>
         <Card className='totalPrice'><div>￥{this.props.carList.filter(item =>item.selected===true).reduce((pre,item)=>pre+(item.count*item.price),0)}</div></Card>
-          <Table rowKey="key" rowSelection={{
+          <Table rowSelection={{
             ...rowSelection,
         }} dataSource={this.props.carList} columns={columns} pagination={{ position: ['bottomCenter'] }}/>
       </div>
@@ -99,7 +121,7 @@ class Option3 extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return state
+  return {carList: state.countReducer}
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -107,8 +129,9 @@ const mapDispatchToProps = (dispatch) => {
     add:(data)=>{dispatch(addCountAction(data))},
     odd:(data)=>{dispatch(oddCountAction(data))},
     delete:(data)=>{dispatch(deleteFromShopCarAction(data))},
-    changeSelected:(data,selected)=>{dispatch(changeSelectedAction(data,selected))}
+    changeSelected: (data, selected) => { dispatch(changeSelectedAction(data, selected)) },
+    changeAllSelected:(selected) => { dispatch(changeAllSelectedAction(selected))}
   }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(Option3)
+export default connect(mapStateToProps,mapDispatchToProps)(ShopCar)

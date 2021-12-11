@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { NavLink } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import { Menu } from 'antd';
 import {
   AppstoreOutlined,
@@ -12,30 +12,34 @@ import {
 
 const { SubMenu } = Menu;
 
-export default class Nav extends Component {
-
+class Nav extends Component {
 
   render() {
+    const { pathname } = this.props.history.location
+    // 用于导航栏高亮
+    const navKey = pathname.substring(0, pathname.slice(1).indexOf('/') + 1) || pathname
+    // console.log(this.props);
     return (
       <div style={{ width: 200 }}>
         <Menu
           defaultSelectedKeys={['1']}
-          defaultOpenKeys={[]}
+          // defaultOpenKeys={[]}
           mode="inline"
           theme="dark"
+          selectedKeys={[navKey]}
         >
-          <Menu.Item key="1" icon={<PieChartOutlined />}>
-            <NavLink to={{pathname:'/option1',state: {name:'zhou',age:11}}}>Option 1</NavLink>
+          <Menu.Item key="/option1" icon={<PieChartOutlined />}>
+            <NavLink to={{ pathname: '/option1' }}>商品列表</NavLink>
           </Menu.Item>
-          
-          <Menu.Item key="2" icon={<DesktopOutlined />}>
-            <NavLink to='/option2'>Option 2</NavLink>
+
+          <Menu.Item key="/login" icon={<DesktopOutlined />}>
+            <NavLink to='/login'>登录</NavLink>
           </Menu.Item>
-          <Menu.Item key="3" icon={<ContainerOutlined />}>
-            <NavLink to='/option3'>Option 3</NavLink>
+          <Menu.Item key="/option3" icon={<ContainerOutlined />}>
+            <NavLink to='/option3'>购物车</NavLink>
           </Menu.Item>
           <SubMenu key="sub1" icon={<MailOutlined />} title="Navigation One">
-            <Menu.Item key="5"><NavLink to="/option5">Option 5</NavLink></Menu.Item>
+            <Menu.Item key="/option5"><NavLink to="/option5">Option 5</NavLink></Menu.Item>
             <Menu.Item key="6">Option 6</Menu.Item>
             <Menu.Item key="7">Option 7</Menu.Item>
             <Menu.Item key="8">Option 8</Menu.Item>
@@ -53,3 +57,5 @@ export default class Nav extends Component {
     );
   }
 }
+
+export default withRouter(Nav)
