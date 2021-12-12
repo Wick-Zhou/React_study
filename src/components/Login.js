@@ -13,7 +13,6 @@ import { getLogin, getRegister } from '../service/api'
 const Login = function Login(props) {
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [registerLoading, setRegisterLoading] = useState(false)
-  // console.log(props);
   const onFinish = (values) => {
     // console.log(values)
     const { username } = values
@@ -30,7 +29,7 @@ const Login = function Login(props) {
         message.error(res.data.msg)
       }
     })
-      .catch(() => { })
+      .catch(() => {})
       .finally(() => { props.handleLoading(false) })
   }
 
