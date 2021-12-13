@@ -9,8 +9,6 @@ class Option4 extends Component {
   logout() {
     window.sessionStorage.clear()
     this.props.logout()
-    // window.sessionStorage.setItem('isLogin',false)
-    // window.sessionStorage.setItem('username','')
   }
 
   render() {

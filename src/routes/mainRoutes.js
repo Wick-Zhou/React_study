@@ -1,7 +1,6 @@
 import GoodsList from '../components/GoodsList'
 import Login from '../components/Login'
 import ShopCar from '../components/ShopCar'
-import Option5 from '../components/Option5'
 
 const mainRoutes = [
   {
@@ -15,10 +14,6 @@ const mainRoutes = [
   {
     path: '/option3',
     component: ShopCar,
-  },
-  {
-    path: '/option5',
-    component: Option5,
   },
 ]
 

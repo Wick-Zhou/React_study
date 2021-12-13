@@ -13,7 +13,6 @@ import Buttom from './components/Bottom'
 import GoodsList from './components/GoodsList'
 import ShopCar from './components/ShopCar'
 import Option4 from './components/Option4'
-import Option5 from './components/Option5'
 import Login from './components/Login'
 import Detail from './components/Detail'
 
@@ -22,7 +21,17 @@ const {
 } = Layout
 
 class App extends PureComponent {
+  constructor(props) {
+    super(props)
+    this.state = { collapsed: 'true' }
+  }
+
+  getCollapsed(data) {
+    console.log(data, this)
+  }
+
   render() {
+    // console.log(this)
     return (
       <div>
         <Layout>
@@ -36,8 +45,10 @@ class App extends PureComponent {
                 left: 0,
                 top: 64,
               }}
+              // collapsible
+              inlinecollapsed={this.state.collapsed}
             >
-              <Nav />
+              <Nav getCollapsed={(data) => this.getCollapsed(data)} />
             </Sider>
             <Content style={{ marginLeft: 200, marginTop: 64 }}>
               <Switch>
@@ -62,7 +73,6 @@ class App extends PureComponent {
                     return <Redirect to="/login" />
                   }}
                 />
-                <Route exact path="/option5" component={Option5} />
                 <Route exact path="/option1/detail/:title" component={Detail} />
                 <Redirect to="option1" from="/" />
                 {/* {

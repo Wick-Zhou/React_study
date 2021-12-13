@@ -13,6 +13,7 @@ import { getLogin, getRegister } from '../service/api'
 const Login = function Login(props) {
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [registerLoading, setRegisterLoading] = useState(false)
+
   const onFinish = (values) => {
     // console.log(values)
     const { username } = values
@@ -44,7 +45,6 @@ const Login = function Login(props) {
 
   const onRegisterFinish = (values) => {
     // console.log(values)
-    // setIsModalVisible(false)
     setRegisterLoading(true)
     getRegister(JSON.stringify(values)).then((res) => {
       // console.log(res)
@@ -56,12 +56,11 @@ const Login = function Login(props) {
         message.error(msg)
       }
       setRegisterLoading(false)
-    }).catch(() => { })
+    }).catch(() => {})
   }
 
   return (
     <div>
-      <Button onClick={register}>注册</Button>
       <Form
         name="normal_login"
         className="login-form"
@@ -85,11 +84,14 @@ const Login = function Login(props) {
             placeholder="Password"
           />
         </Form.Item>
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Form.Item style={{ width: 140 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+          <Form.Item style={{ width: 130 }}>
             <Form.Item name="remember" valuePropName="checked" noStyle>
               <Checkbox>Remember me</Checkbox>
             </Form.Item>
+          </Form.Item>
+          <Form.Item style={{ width: 80 }}>
+            <Button onClick={register}>Register</Button>
           </Form.Item>
           <Form.Item style={{ width: 70 }}>
             <Button type="primary" htmlType="submit" className="login-form-button">
