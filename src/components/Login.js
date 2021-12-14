@@ -23,7 +23,7 @@ const Login = function Login(props) {
       if (res.data.isLogin) {
         message.success(res.data.msg)
         props.login(username)
-        props.history.push('/option3')
+        props.history.push('/shopcar')
         window.sessionStorage.setItem('isLogin', true)
         window.sessionStorage.setItem('username', username)
       } else {

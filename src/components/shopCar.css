@@ -1,7 +1,6 @@
 .totalPrice{
-  /* position: fixed; */
   bottom: 0;
-  width: 100%;
+  margin: 10px;
 }
 
 .totalPrice div{
@@ -9,7 +8,5 @@
   font-weight: 900;
   color: red;
   width: 100px;
-  /* position: relative;
-  left: 100px; */
   margin: auto;
 }

@@ -52,25 +52,29 @@ class ShopCar extends Component {
         title: '姓名',
         dataIndex: 'name',
         key: 'name',
+        align: 'center',
       },
       {
         title: '数量',
         dataIndex: 'count',
         key: 'count',
+        align: 'center',
       },
       {
         title: '价格',
         dataIndex: 'price',
         key: 'price',
+        align: 'center',
       },
       {
         title: '操作',
         dataIndex: 'key',
         key: 'key',
+        align: 'center',
         render: (key, data) => (
           <div>
-            <button type="button" onClick={() => this.odd(data)} style={{ marginRight: 20 }}>-</button>
-            <button type="button" onClick={() => this.add(data)} style={{ marginLeft: 20 }}>+</button>
+            <Button type="button" onClick={() => this.odd(data)} style={{ marginRight: 20 }}>-</Button>
+            <Button type="button" onClick={() => this.add(data)} style={{ marginLeft: 20 }}>+</Button>
           </div>
         ),
       },
@@ -78,6 +82,7 @@ class ShopCar extends Component {
         title: '删除',
         dataIndex: 'key',
         key: 'key',
+        align: 'center',
         render: (key, data) => (
           <div>
             <Popconfirm
@@ -123,6 +128,7 @@ class ShopCar extends Component {
           </div>
         </Card>
         <Table
+          style={{ margin: 10 }}
           rowSelection={{
             ...rowSelection,
           }}

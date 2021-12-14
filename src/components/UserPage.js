@@ -3,12 +3,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Button } from 'antd'
+import { withRouter } from 'react-router-dom'
 import { logoutAction } from '../redux/actions/actions'
 
-class Option4 extends Component {
+class UserPage extends Component {
   logout() {
     window.sessionStorage.clear()
     this.props.logout()
+    this.props.history.push('/login')
   }
 
   render() {
@@ -32,4 +34,4 @@ const mapDispatchToProps = (dispatch) => ({
   logout: () => { dispatch(logoutAction()) },
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Option4)
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(UserPage))

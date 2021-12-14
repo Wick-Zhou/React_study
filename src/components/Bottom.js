@@ -4,7 +4,7 @@ export default class Bottom extends PureComponent {
   render() {
     return (
       <div>
-        bottom
+        <span>Email: Wali.zhou@silksoftware.com</span>
       </div>
     )
   }

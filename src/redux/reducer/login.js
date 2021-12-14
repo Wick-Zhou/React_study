@@ -4,7 +4,7 @@ import {
   LOGOUT,
 } from '../actionType'
 
-const sessionStorageIsLogin = window.sessionStorage.getItem('isLogin')
+const sessionStorageIsLogin = JSON.parse(window.sessionStorage.getItem('isLogin'))
 const sessionStorageUsername = window.sessionStorage.getItem('username')
 const initState = {
   username: sessionStorageUsername || '',

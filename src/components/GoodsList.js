@@ -86,7 +86,7 @@ const GoodsList = function GoodsList(props) {
       title: '姓名',
       dataIndex: 'name',
       // key: 'name',
-      render: (a) => <NavLink to={`option1/detail/${a}`}>{a}</NavLink>,
+      render: (a, b) => <NavLink to={{ pathname: `goodlist/detail/${a}`, state: b }}>{a}</NavLink>,
     },
     {
       title: '价格',
