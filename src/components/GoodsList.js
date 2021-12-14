@@ -75,6 +75,11 @@ const GoodsList = function GoodsList(props) {
     }
   }
 
+  function onFinish(values) {
+    // console.log('Success:', values)
+    addUser(values)
+  }
+
   const columns = [
     {
       title: 'Key',
@@ -113,9 +118,9 @@ const GoodsList = function GoodsList(props) {
     },
   ]
 
-  function onFinish(values) {
-    // console.log('Success:', values)
-    addUser(values)
+  function onPageChange(paginationData) {
+    const { current } = paginationData
+    sessionStorage.setItem('goodListPage', current)
   }
 
   return (
@@ -208,6 +213,8 @@ const GoodsList = function GoodsList(props) {
         dataSource={dataSource}
         columns={columns}
         pagination={{ position: ['bottomCenter'] }}
+        onChange={(paginationData) => onPageChange(paginationData)}
+        defaultCurrent={2}
       />
     </div>
   )

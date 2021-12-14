@@ -6,7 +6,6 @@ import { withRouter } from 'react-router-dom'
 
 class Detail extends PureComponent {
   render() {
-    console.log(this.props)
     return (
       <div>
         <Button onClick={() => { this.props.history.goBack() }}>{'<返回'}</Button>

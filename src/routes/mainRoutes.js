@@ -4,7 +4,7 @@ import ShopCar from '../components/ShopCar'
 
 const mainRoutes = [
   {
-    path: '/option1',
+    path: '/goodlist',
     component: GoodsList,
   },
   {
@@ -12,7 +12,7 @@ const mainRoutes = [
     component: Login,
   },
   {
-    path: '/option3',
+    path: '/shopcar',
     component: ShopCar,
   },
 ]

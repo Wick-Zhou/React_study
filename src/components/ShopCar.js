@@ -3,7 +3,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {
-  Table, Card, Button, Popconfirm, message,
+  Table, Card, Button, Popconfirm, message, Pagination,
 } from 'antd'
 import {
   addCountAction,
@@ -16,6 +16,19 @@ import {
 import './shopCar.css'
 
 class ShopCar extends Component {
+  constructor(props) {
+    super(props)
+    this.state = { current: 1 }
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  onPageChange(currentPage) {
+    console.log(this)
+    console.log(currentPage)
+    this.setState({ current: currentPage })
+    sessionStorage.setItem('shopCarPage', currentPage)
+  }
+
   add(data) {
     // console.log(data);
     this.props.add(data)
@@ -27,7 +40,7 @@ class ShopCar extends Component {
   }
 
   delete(data) {
-    message.success('已成功删除！')
+    message.success('已成功删除!')
     this.props.delete(data)
   }
 
@@ -117,6 +130,13 @@ class ShopCar extends Component {
         this.changeAllSelected(selected)
       },
     }
+    // const paginationProps = {
+    //   onChange: (paginationData) => this.onPageChange(paginationData),
+    //   current: this.state.current,
+    //   defaultCurrent: sessionStorage.getItem('shopCarPage'),
+    //   total: this.props.carList.length,
+    //   defaultPageSize: 5,
+    // }
 
     return (
       <div>
@@ -134,7 +154,16 @@ class ShopCar extends Component {
           }}
           dataSource={this.props.carList}
           columns={columns}
-          pagination={{ position: ['bottomCenter'] }}
+          // pagination={{ position: ['bottomCenter'] }}
+          // pagination={paginationProps}
+          pagination={false}
+        />
+        <Pagination
+          defaultPageSize={5}
+          total={this.props.carList.length}
+          current={this.state.current}
+          // defaultCurrent={sessionStorage.getItem('shopCarPage')}
+          onChange={(paginationData) => this.onPageChange(paginationData)}
         />
       </div>
     )
