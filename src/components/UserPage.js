@@ -8,7 +8,9 @@ import { logoutAction } from '../redux/actions/actions'
 
 class UserPage extends Component {
   logout() {
-    window.sessionStorage.clear()
+    // window.sessionStorage.clear()
+    sessionStorage.removeItem('isLogin')
+    sessionStorage.removeItem('username')
     this.props.logout()
     this.props.history.push('/login')
   }

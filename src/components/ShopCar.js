@@ -3,7 +3,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {
-  Table, Card, Button, Popconfirm, message, Pagination,
+  Table, Card, Button, Popconfirm, message,
 } from 'antd'
 import {
   addCountAction,
@@ -16,40 +16,9 @@ import {
 import './shopCar.css'
 
 class ShopCar extends Component {
-  constructor(props) {
-    super(props)
-    this.state = { current: 1 }
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  onPageChange(currentPage) {
-    console.log(this)
-    console.log(currentPage)
-    this.setState({ current: currentPage })
-    sessionStorage.setItem('shopCarPage', currentPage)
-  }
-
-  add(data) {
-    // console.log(data);
-    this.props.add(data)
-  }
-
-  odd(data) {
-    // console.log(data);
-    this.props.odd(data)
-  }
-
   delete(data) {
     message.success('已成功删除!')
     this.props.delete(data)
-  }
-
-  changeSelected(data, selected) {
-    this.props.changeSelected(data, selected)
-  }
-
-  changeAllSelected(selected) {
-    this.props.changeAllSelected(selected)
   }
 
   render() {
@@ -86,8 +55,8 @@ class ShopCar extends Component {
         align: 'center',
         render: (key, data) => (
           <div>
-            <Button type="button" onClick={() => this.odd(data)} style={{ marginRight: 20 }}>-</Button>
-            <Button type="button" onClick={() => this.add(data)} style={{ marginLeft: 20 }}>+</Button>
+            <Button type="button" onClick={() => this.props.odd(data)} style={{ marginRight: 20 }}>-</Button>
+            <Button type="button" onClick={() => this.props.add(data)} style={{ marginLeft: 20 }}>+</Button>
           </div>
         ),
       },
@@ -100,23 +69,20 @@ class ShopCar extends Component {
           <div>
             <Popconfirm
               placement="left"
-              title="你忍心不要我了吗？"
+              title="请三思而行!"
               onConfirm={() => this.delete(data)}
               okText="滚一边去"
               cancelText="算了"
             >
-              {/* <Button danger onClick={() =>this.delete(data)}>删除</Button> */}
               <Button danger>删除</Button>
             </Popconfirm>
           </div>
         ),
       },
     ]
+
     const rowSelection = {
       type: 'checkbox',
-      // onChange: (selectedRowKeys, selectedRows) => {
-      //   console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-      // },
       defaultSelectedRowKeys: this.props.carList.map((item) => {
         if (item.selected === true) {
           return item.key
@@ -124,19 +90,20 @@ class ShopCar extends Component {
       }),
 
       onSelect: (record, selected) => {
-        this.changeSelected(record, selected)
+        this.props.changeSelected(record, selected)
       },
       onSelectAll: (selected) => {
-        this.changeAllSelected(selected)
+        this.props.changeAllSelected(selected)
       },
     }
-    // const paginationProps = {
-    //   onChange: (paginationData) => this.onPageChange(paginationData),
-    //   current: this.state.current,
-    //   defaultCurrent: sessionStorage.getItem('shopCarPage'),
-    //   total: this.props.carList.length,
-    //   defaultPageSize: 5,
-    // }
+
+    const paginationProps = {
+      position: ['bottomCenter'],
+      total: this.props.carList.length,
+      defaultPageSize: 5,
+      onChange: (paginationData) => sessionStorage.setItem('shopCarPage', paginationData),
+      defaultCurrent: Number(sessionStorage.getItem('shopCarPage')) || 1,
+    }
 
     return (
       <div>
@@ -154,16 +121,7 @@ class ShopCar extends Component {
           }}
           dataSource={this.props.carList}
           columns={columns}
-          // pagination={{ position: ['bottomCenter'] }}
-          // pagination={paginationProps}
-          pagination={false}
-        />
-        <Pagination
-          defaultPageSize={5}
-          total={this.props.carList.length}
-          current={this.state.current}
-          // defaultCurrent={sessionStorage.getItem('shopCarPage')}
-          onChange={(paginationData) => this.onPageChange(paginationData)}
+          pagination={paginationProps}
         />
       </div>
     )

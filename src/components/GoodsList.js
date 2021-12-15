@@ -118,9 +118,17 @@ const GoodsList = function GoodsList(props) {
     },
   ]
 
-  function onPageChange(paginationData) {
-    const { current } = paginationData
-    sessionStorage.setItem('goodListPage', current)
+  // function onPageChange(paginationData) {
+  //   const { current } = paginationData
+  //   sessionStorage.setItem('goodListPage', current)
+  // }
+
+  const paginationProps = {
+    position: ['bottomCenter'],
+    total: dataSource.length,
+    defaultPageSize: 5,
+    onChange: (paginationData) => sessionStorage.setItem('goodListPage', paginationData),
+    defaultCurrent: Number(sessionStorage.getItem('goodListPage')) || 1,
   }
 
   return (
@@ -212,9 +220,8 @@ const GoodsList = function GoodsList(props) {
       <Table
         dataSource={dataSource}
         columns={columns}
-        pagination={{ position: ['bottomCenter'] }}
-        onChange={(paginationData) => onPageChange(paginationData)}
-        defaultCurrent={2}
+        // onChange={(paginationData) => onPageChange(paginationData)}
+        pagination={paginationProps}
       />
     </div>
   )
