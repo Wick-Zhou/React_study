@@ -3,26 +3,28 @@ import {
   Form, Input, Button, Checkbox, message, Modal,
 } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
-import { connect } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { loginAction, isloadingAction } from '../redux/actions/actions'
 import { getLogin, getRegister } from '../service/api'
+import { changeLoading } from '../store/feature/globalLoading'
+import { changeLogin } from '../store/feature/login'
 
 const Login = (props) => {
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [registerLoading, setRegisterLoading] = useState(false)
-  const { handleLoading, login, history: { push } } = props
+  const { history: { push } } = props
+  const dispatch = useDispatch()
 
   const onFinish = (values) => {
     // console.log(values)
     const { username } = values
-    handleLoading(true)
+    dispatch(changeLoading({ isLoading: true }))
     getLogin(JSON.stringify(values)).then((res) => {
       // console.log(res)
       if (res.data.isLogin) {
         message.success(res.data.msg)
-        login(username)
+        dispatch(changeLogin({ username, isLoading: true }))
         push('/shopcar')
         window.sessionStorage.setItem('isLogin', true)
         window.sessionStorage.setItem('username', username)
@@ -31,7 +33,7 @@ const Login = (props) => {
       }
     })
       .catch(() => {})
-      .finally(() => { handleLoading(false) })
+      .finally(() => { dispatch(changeLoading({ isLoading: false })) })
   }
 
   const register = () => {
@@ -149,14 +151,7 @@ const Login = (props) => {
 }
 
 Login.propTypes = {
-  handleLoading: PropTypes.func.isRequired,
-  login: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  login: (username) => { dispatch(loginAction(username)) },
-  handleLoading: (data) => { dispatch(isloadingAction(data)) },
-})
-
-export default connect(null, mapDispatchToProps)(withRouter(Login))
+export default withRouter(Login)

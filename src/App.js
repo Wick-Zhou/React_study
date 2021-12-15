@@ -1,8 +1,9 @@
 import { Route, Switch, Redirect } from 'react-router-dom'
 import './App.css'
 import { Layout } from 'antd'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
+// import { connect } from 'react-redux'
+// import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
 import Head from './components/Head'
 import Nav from './components/Nav'
 import Bottom from './components/Bottom'
@@ -17,8 +18,9 @@ const {
   Header, Footer, Sider, Content,
 } = Layout
 
-const App = (props) => {
-  const { isLogin, isLoading } = props
+const App = () => {
+  const { isLoading } = useSelector((state) => state.loading)
+  const { isLogin } = useSelector((state) => state.login)
   return (
     <div style={{ height: '100%' }}>
       <Layout className="container">
@@ -90,14 +92,15 @@ const App = (props) => {
   )
 }
 
-App.propTypes = {
-  isLogin: PropTypes.bool.isRequired,
-  isLoading: PropTypes.bool.isRequired,
-}
+// App.propTypes = {
+//   isLogin: PropTypes.bool.isRequired,
+//   isLoading: PropTypes.bool.isRequired,
+// }
 
-const mapStateToProps = (state) => ({
-  isLogin: state.loginReducer.isLogin,
-  isLoading: state.globalLoadingReducer.isLoading,
-})
+// const mapStateToProps = (state) => ({
+//   isLogin: state.loginReducer.isLogin,
+//   isLoading: state.globalLoadingReducer.isLoading,
+// })
 
-export default connect(mapStateToProps, null)(App)
+// export default connect(mapStateToProps, null)(App)
+export default App

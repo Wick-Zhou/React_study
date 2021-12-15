@@ -1,28 +1,31 @@
 import {
   Table, Button, Card, Input, Form, message,
 } from 'antd'
-import { connect } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import { useState, useRef, useEffect } from 'react'
-import PropTypes from 'prop-types'
-import { addShopCarAction, isloadingAction } from '../redux/actions/actions'
 import { getList } from '../service/api'
+import { changeLoading } from '../store/feature/globalLoading'
+import { addShopCar } from '../store/feature/countSlice'
 
 const { Search } = Input
 
-const GoodsList = (props) => {
+const GoodsList = () => {
   const form = useRef()
   const [dataSource, setDataSource] = useState([])
-  const { handleLoading, isLogin } = props
-
+  const dispatch = useDispatch()
+  const { carList } = useSelector((state) => state.count)
+  const { isLoading } = useSelector((state) => state.loading)
+  const { isLogin } = useSelector((state) => state.login)
+  console.log(carList, isLoading)
   useEffect(() => {
-    handleLoading(true)
+    dispatch(changeLoading({ isLoading: true }))
     getList().then((res) => {
       setDataSource(res.data.list)
     })
       .catch(() => {})
       .finally(() => {
-        handleLoading(false)
+        dispatch(changeLoading({ isLoading: false }))
       })
     // return () => { setDataSource(){return false}}
   }, [])
@@ -37,13 +40,13 @@ const GoodsList = (props) => {
       })
       setDataSource(searchData)
     } else {
-      handleLoading(true)
+      dispatch(changeLoading({ isLoading: true }))
       getList().then((res) => {
         setDataSource(res.data.list)
       })
         .catch(() => {})
         .finally(() => {
-          handleLoading(false)
+          dispatch(changeLoading({ isLoading: false }))
         })
     }
   }
@@ -65,9 +68,10 @@ const GoodsList = (props) => {
     }
   }
 
-  function addShopCar(data) {
+  function addToShopCar(data) {
+    dispatch(addShopCar(data))
     if (isLogin) {
-      addShopCar(data)
+      dispatch(addShopCar(data))
       message.success('添加成功!')
     } else {
       message.warning('请登录后尝试!')
@@ -83,33 +87,27 @@ const GoodsList = (props) => {
     {
       title: 'Key',
       dataIndex: 'key',
-      // key: 'key',
-      // render:(text,record,index)=>`${index+1}`
     },
     {
       title: '姓名',
       dataIndex: 'name',
-      // key: 'name',
       render: (a, b) => <NavLink to={{ pathname: `goodlist/detail/${a}`, state: b }}>{a}</NavLink>,
     },
     {
       title: '价格',
       dataIndex: 'price',
-      // key: 'price',
     },
     {
       title: '住址',
       dataIndex: 'address',
-      // key: 'address',
     },
     {
       title: '操作',
       dataIndex: 'key',
-      // key: 'key',
       render: (key, data) => (
         <Button
           type="primary"
-          onClick={() => addShopCar(data)}
+          onClick={() => addToShopCar(data)}
         >
           添加购物车
         </Button>
@@ -220,18 +218,4 @@ const GoodsList = (props) => {
   )
 }
 
-GoodsList.propTypes = {
-  handleLoading: PropTypes.func.isRequired,
-  isLogin: PropTypes.bool.isRequired,
-}
-
-const mapStateToProps = (state) => ({
-  carList: state.countReducer, isLogin: state.loginReducer.isLogin,
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  addShopCar: (data) => { dispatch(addShopCarAction(data)) },
-  handleLoading: (data) => { dispatch(isloadingAction(data)) },
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(GoodsList)
+export default GoodsList

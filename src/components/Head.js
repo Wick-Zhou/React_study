@@ -1,8 +1,7 @@
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
 
-const Head = (props) => {
-  const { isLogin, username } = props
+const Head = () => {
+  const { isLogin, username } = useSelector((state) => state.login)
   return (
     <div style={{ color: 'white' }}>
       <span style={{ color: 'white', fontWeight: '900', fontSize: 20 }}>welcome</span>
@@ -20,13 +19,4 @@ const Head = (props) => {
   )
 }
 
-Head.propTypes = {
-  isLogin: PropTypes.bool.isRequired,
-  username: PropTypes.string.isRequired,
-}
-
-const mapStateToProps = (state) => ({
-  username: state.loginReducer.username, isLogin: state.loginReducer.isLogin,
-})
-
-export default connect(mapStateToProps, null)(Head)
+export default Head

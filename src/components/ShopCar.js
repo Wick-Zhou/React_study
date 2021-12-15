@@ -1,25 +1,18 @@
-import { connect } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import {
   Table, Card, Button, Popconfirm, message,
 } from 'antd'
-import PropTypes from 'prop-types'
-import {
-  addCountAction,
-  oddCountAction,
-  deleteFromShopCarAction,
-  changeSelectedAction,
-  changeAllSelectedAction,
-} from '../redux/actions/actions'
-
 import './shopCar.css'
+import {
+  addCount, oddCount, deleteGood, selected, allSelected,
+} from '../store/feature/countSlice'
 
-const ShopCar = (props) => {
-  const {
-    deleteGoodR, odd, add, carList, changeSelected, changeAllSelected,
-  } = props
-  const deleteGood = (data) => {
+const ShopCar = () => {
+  const dispatch = useDispatch()
+  const { carList } = useSelector((state) => state.count)
+  const deleteCarGood = (data) => {
     message.success('已成功删除!')
-    deleteGoodR(data)
+    dispatch(deleteGood(data))
   }
   // console.log(this.props)
   const columns = [
@@ -53,8 +46,8 @@ const ShopCar = (props) => {
       align: 'center',
       render: (key, data) => (
         <div>
-          <Button type="button" onClick={() => odd(data)} style={{ marginRight: 20 }}>-</Button>
-          <Button type="button" onClick={() => add(data)} style={{ marginLeft: 20 }}>+</Button>
+          <Button type="button" onClick={() => dispatch(oddCount(data))} style={{ marginRight: 20 }}>-</Button>
+          <Button type="button" onClick={() => dispatch(addCount(data))} style={{ marginLeft: 20 }}>+</Button>
         </div>
       ),
     },
@@ -68,7 +61,7 @@ const ShopCar = (props) => {
           <Popconfirm
             placement="left"
             title="请三思而行!"
-            onConfirm={() => deleteGood(data)}
+            onConfirm={() => deleteCarGood(data)}
             okText="滚一边去"
             cancelText="算了"
           >
@@ -87,11 +80,11 @@ const ShopCar = (props) => {
       } return null
     }),
 
-    onSelect: (record, selected) => {
-      changeSelected(record, selected)
+    onSelect: (data, isSelect) => {
+      dispatch(selected(data, isSelect))
     },
-    onSelectAll: (selected) => {
-      changeAllSelected(selected)
+    onSelectAll: (isSelect) => {
+      dispatch(allSelected(isSelect))
     },
   }
 
@@ -125,23 +118,14 @@ const ShopCar = (props) => {
   )
 }
 
-ShopCar.propTypes = {
-  deleteGoodR: PropTypes.func.isRequired,
-  odd: PropTypes.func.isRequired,
-  add: PropTypes.func.isRequired,
-  carList: PropTypes.array.isRequired,
-  changeSelected: PropTypes.func.isRequired,
-  changeAllSelected: PropTypes.func.isRequired,
-}
+// const mapStateToProps = (state) => ({ carList: state.countReducer })
 
-const mapStateToProps = (state) => ({ carList: state.countReducer })
+// const mapDispatchToProps = (dispatch) => ({
+//   add: (data) => { dispatch(addCountAction(data)) },
+//   odd: (data) => { dispatch(oddCountAction(data)) },
+//   deleteGoodR: (data) => { dispatch(deleteFromShopCarAction(data)) },
+//   changeSelected: (data, selected) => { dispatch(changeSelectedAction(data, selected)) },
+//   changeAllSelected: (selected) => { dispatch(changeAllSelectedAction(selected)) },
+// })
 
-const mapDispatchToProps = (dispatch) => ({
-  add: (data) => { dispatch(addCountAction(data)) },
-  odd: (data) => { dispatch(oddCountAction(data)) },
-  deleteGoodR: (data) => { dispatch(deleteFromShopCarAction(data)) },
-  changeSelected: (data, selected) => { dispatch(changeSelectedAction(data, selected)) },
-  changeAllSelected: (selected) => { dispatch(changeAllSelectedAction(selected)) },
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(ShopCar)
+export default ShopCar

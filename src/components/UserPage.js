@@ -1,15 +1,17 @@
-import { connect } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { Button } from 'antd'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { logoutAction } from '../redux/actions/actions'
+import { changeLogin } from '../store/feature/login'
 
 const UserPage = (props) => {
-  const { history: { push }, logoutR, username } = props
+  const dispatch = useDispatch()
+  const { username } = useSelector((state) => state.login)
+  const { history: { push } } = props
   const logout = () => {
     sessionStorage.removeItem('isLogin')
     sessionStorage.removeItem('username')
-    logoutR()
+    dispatch(changeLogin({ isLogin: false }))
     push('/login')
   }
 
@@ -28,14 +30,6 @@ const UserPage = (props) => {
 
 UserPage.propTypes = {
   history: PropTypes.object.isRequired,
-  logoutR: PropTypes.func.isRequired,
-  username: PropTypes.string.isRequired,
 }
 
-const mapStateToProps = (state) => ({ username: state.loginReducer.username })
-
-const mapDispatchToProps = (dispatch) => ({
-  logout: () => { dispatch(logoutAction()) },
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(UserPage))
+export default (withRouter(UserPage))

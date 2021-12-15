@@ -1,5 +1,5 @@
 import { NavLink, withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Menu } from 'antd'
 import {
@@ -10,11 +10,12 @@ import {
 
 const Nav = (props) => {
   let pathname = ''
-  const { history: { location }, isLogin } = props
+  const { history: { location } } = props
+  const { isLogin } = useSelector((state) => state.login)
   pathname = location.pathname
   // 用于导航栏高亮
-  const navKey = pathname.substring(0, pathname.slice(1).indexOf('/') + 1) || pathname
-  // const navKey = (`/${pathname.split('/')[0]}`) || pathname
+  // const navKey = pathname.substring(0, pathname.slice(1).indexOf('/') + 1) || pathname
+  const navKey = (`/${pathname.split('/')[1]}`) || pathname
   return (
     <div style={{ width: 200 }}>
       <Menu
@@ -51,10 +52,10 @@ const Nav = (props) => {
 
 Nav.propTypes = {
   history: PropTypes.object.isRequired,
-  isLogin: PropTypes.bool.isRequired,
 }
 
-const mapStateToProps = (state) => ({
-  isLogin: state.loginReducer.isLogin,
-})
-export default connect(mapStateToProps, null)(withRouter(Nav))
+// const mapStateToProps = (state) => ({
+//   isLogin: state.loginReducer.isLogin,
+// })
+// export default connect(mapStateToProps, null)(withRouter(Nav))
+export default withRouter(Nav)
