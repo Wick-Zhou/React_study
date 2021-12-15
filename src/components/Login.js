@@ -1,29 +1,29 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable react/destructuring-assignment */
-import React, { useState } from 'react'
+import { useState } from 'react'
 import {
   Form, Input, Button, Checkbox, message, Modal,
 } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import PropTypes from 'prop-types'
 import { loginAction, isloadingAction } from '../redux/actions/actions'
 import { getLogin, getRegister } from '../service/api'
 
-const Login = function Login(props) {
+const Login = (props) => {
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [registerLoading, setRegisterLoading] = useState(false)
+  const { handleLoading, login, history: { push } } = props
 
   const onFinish = (values) => {
     // console.log(values)
     const { username } = values
-    props.handleLoading(true)
+    handleLoading(true)
     getLogin(JSON.stringify(values)).then((res) => {
       // console.log(res)
       if (res.data.isLogin) {
         message.success(res.data.msg)
-        props.login(username)
-        props.history.push('/shopcar')
+        login(username)
+        push('/shopcar')
         window.sessionStorage.setItem('isLogin', true)
         window.sessionStorage.setItem('username', username)
       } else {
@@ -31,7 +31,7 @@ const Login = function Login(props) {
       }
     })
       .catch(() => {})
-      .finally(() => { props.handleLoading(false) })
+      .finally(() => { handleLoading(false) })
   }
 
   const register = () => {
@@ -146,6 +146,12 @@ const Login = function Login(props) {
       </Modal>
     </div>
   )
+}
+
+Login.propTypes = {
+  handleLoading: PropTypes.func.isRequired,
+  login: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
 }
 
 const mapDispatchToProps = (dispatch) => ({

@@ -1,26 +1,28 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable react/destructuring-assignment */
-import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 
-class Head extends PureComponent {
-  render() {
-    return (
-      <div style={{ color: 'white' }}>
-        <span style={{ color: 'white', fontWeight: '900', fontSize: 20 }}>welcome</span>
-        {
-          this.props.isLogin ? (
-            <span>
-              {' '}
-              -
-              {' '}
-              {this.props.username}
-            </span>
-          ) : ''
-        }
-      </div>
-    )
-  }
+const Head = (props) => {
+  const { isLogin, username } = props
+  return (
+    <div style={{ color: 'white' }}>
+      <span style={{ color: 'white', fontWeight: '900', fontSize: 20 }}>welcome</span>
+      {
+        isLogin ? (
+          <span>
+            {' '}
+            -
+            {' '}
+            {username}
+          </span>
+        ) : ''
+      }
+    </div>
+  )
+}
+
+Head.propTypes = {
+  isLogin: PropTypes.bool.isRequired,
+  username: PropTypes.string.isRequired,
 }
 
 const mapStateToProps = (state) => ({

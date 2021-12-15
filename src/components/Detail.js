@@ -1,19 +1,21 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable react/destructuring-assignment */
-import React, { PureComponent } from 'react'
 import { Button } from 'antd'
 import { withRouter } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
-class Detail extends PureComponent {
-  render() {
-    return (
-      <div>
-        <Button onClick={() => { this.props.history.goBack() }}>{'<返回'}</Button>
-        <p>{this.props.match.params.title}</p>
-        <img style={{ width: 300 }} src={this.props.location.state.imgUrl} alt="" />
-      </div>
-    )
-  }
+const Detail = (props) => {
+  const { history: { goBack }, match: { params: { title } }, location: { state: imgUrl } } = props
+  return (
+    <div>
+      <Button onClick={() => { goBack() }}>{'<返回'}</Button>
+      <p>{title}</p>
+      <img style={{ width: 300 }} src={imgUrl} alt="" />
+    </div>
+  )
+}
+Detail.propTypes = {
+  history: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
 }
 
 export default withRouter(Detail)
