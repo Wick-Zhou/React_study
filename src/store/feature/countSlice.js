@@ -19,7 +19,6 @@ export const countSlice = createSlice({
       } else {
         state.carList.find((item) => item.key === key).count += 1
       }
-      return state
     },
     addCount(state, action) {
       const { data: { key } } = action.payload
@@ -29,7 +28,6 @@ export const countSlice = createSlice({
         }
         return item
       })
-      return state
     },
     oddCount(state, action) {
       const { data: { key } } = action.payload
@@ -39,25 +37,26 @@ export const countSlice = createSlice({
         }
         return item
       })
-      return state
     },
     deleteGood(state, action) {
       const { data: { key } } = action.payload
       state.carList = state.carList.filter((item) => item.key !== key)
-      return state
     },
     selected(state, action) {
       const { data: { key }, isSelect } = action.payload
       state.carList.find((item) => item.key === key).selected = isSelect
-      return state
     },
     allSelected(state, action) {
-      const { isSelect } = action.payload
-      state.carList.map((item) => {
-        item.selected = isSelect
+      const { isSelect, changeRows } = action.payload
+      changeRows.map((item) => {
+        state.carList.map((item2) => {
+          if (item.key === item2.key) {
+            item2.selected = isSelect
+          }
+          return item2
+        })
         return item
       })
-      return state
     },
   },
 })

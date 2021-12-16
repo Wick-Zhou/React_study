@@ -11,8 +11,15 @@ const Detail = (props) => {
   return (
     <div>
       <Button onClick={() => { goBack() }}>{'<返回'}</Button>
-      <p>{title}</p>
-      <img style={{ width: 300 }} src={imgUrl} alt="" />
+      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+        <p style={{
+          width: 300, textAlign: 'center', fontSize: 20, fontWeight: 'bold',
+        }}
+        >
+          {title}
+        </p>
+        <img style={{ width: 300 }} src={imgUrl} alt="" />
+      </div>
     </div>
   )
 }

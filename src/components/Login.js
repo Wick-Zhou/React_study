@@ -104,13 +104,12 @@ const Login = (props) => {
       </Form>
 
       <Modal
-        title="喜提账号一枚!"
+        title="Please input above information!"
         visible={isModalVisible}
         onCancel={handleCancel}
-        cancelText="取消"
         footer={[
           <Button key="back" onClick={handleCancel}>
-            取消
+            Cancel
           </Button>,
         ]}
         destroyOnClose="true"

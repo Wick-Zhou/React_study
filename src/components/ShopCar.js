@@ -78,13 +78,12 @@ const ShopCar = () => {
         return item.key
       } return null
     }),
-
     onSelect: (data, isSelect) => {
       // console.log(data, isSelect, selected)
       dispatch(selected({ data, isSelect }))
     },
-    onSelectAll: (isSelect) => {
-      dispatch(allSelected({ isSelect }))
+    onSelectAll: (isSelect, selectedRows, changeRows) => {
+      dispatch(allSelected({ isSelect, changeRows }))
     },
   }
 
@@ -94,6 +93,8 @@ const ShopCar = () => {
     defaultPageSize: 5,
     onChange: (paginationData) => sessionStorage.setItem('shopCarPage', paginationData),
     defaultCurrent: Number(sessionStorage.getItem('shopCarPage')) || 1,
+    showQuickJumper: true,
+    showTotal: () => `共 ${carList.length} 件`,
   }
 
   return (

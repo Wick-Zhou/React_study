@@ -14,8 +14,6 @@ const GoodsList = () => {
   const form = useRef()
   const [dataSource, setDataSource] = useState([])
   const dispatch = useDispatch()
-  // const { carList } = useSelector((state) => state.count)
-  // const { isLoading } = useSelector((state) => state.loading)
   const { isLogin } = useSelector((state) => state.login)
   // console.log(carList, isLoading)
   useEffect(() => {
@@ -27,7 +25,7 @@ const GoodsList = () => {
       .finally(() => {
         dispatch(changeLoading({ isLoading: false }))
       })
-    // return () => { setDataSource(){return false}}
+    // return () => { setDataSource = () => false }
   }, [])
 
   function search(keyWord) {
@@ -70,7 +68,7 @@ const GoodsList = () => {
 
   function addToShopCar(data) {
     if (isLogin) {
-      dispatch(addShopCar(data))
+      dispatch(addShopCar({ data }))
       message.success('添加成功!')
     } else {
       message.warning('请登录后尝试!')
@@ -78,7 +76,6 @@ const GoodsList = () => {
   }
 
   function onFinish(values) {
-    // console.log('Success:', values)
     addUser(values)
   }
 
@@ -120,6 +117,8 @@ const GoodsList = () => {
     defaultPageSize: 5,
     onChange: (paginationData) => sessionStorage.setItem('goodListPage', paginationData),
     defaultCurrent: Number(sessionStorage.getItem('goodListPage')) || 1,
+    showQuickJumper: true,
+    showTotal: () => `共 ${dataSource.length} 件`,
   }
 
   return (
