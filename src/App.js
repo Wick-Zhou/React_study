@@ -1,8 +1,6 @@
 import { Route, Switch, Redirect } from 'react-router-dom'
 import './App.css'
 import { Layout } from 'antd'
-// import { connect } from 'react-redux'
-// import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 import Head from './components/Head'
 import Nav from './components/Nav'
@@ -63,6 +61,7 @@ const App = () => {
               <Route
                 exact
                 path="/shopcar"
+                // render={() => <ShopCar />}
                 render={() => {
                   if (isLogin) {
                     return <ShopCar />
@@ -92,15 +91,4 @@ const App = () => {
   )
 }
 
-// App.propTypes = {
-//   isLogin: PropTypes.bool.isRequired,
-//   isLoading: PropTypes.bool.isRequired,
-// }
-
-// const mapStateToProps = (state) => ({
-//   isLogin: state.loginReducer.isLogin,
-//   isLoading: state.globalLoadingReducer.isLoading,
-// })
-
-// export default connect(mapStateToProps, null)(App)
 export default App

@@ -7,10 +7,10 @@ export const countSlice = createSlice({
   },
   reducers: {
     addShopCar(state, action) {
-      console.log(state, action)
-      // const newState = [...state]
       const {
-        key, name, price, selected,
+        data: {
+          key, name, price, selected,
+        },
       } = action.payload
       if (state.carList.find((item) => item.key === key) === undefined) {
         state.carList.push({
@@ -22,7 +22,7 @@ export const countSlice = createSlice({
       return state
     },
     addCount(state, action) {
-      const { payload: { key } } = action
+      const { data: { key } } = action.payload
       state.carList.map((item) => {
         if (item.key === key) {
           item.count += 1
@@ -32,7 +32,7 @@ export const countSlice = createSlice({
       return state
     },
     oddCount(state, action) {
-      const { payload: { key } } = action
+      const { data: { key } } = action.payload
       state.carList.map((item) => {
         if (item.key === key) {
           item.count = item.count > 1 ? item.count - 1 : 1
@@ -42,23 +42,22 @@ export const countSlice = createSlice({
       return state
     },
     deleteGood(state, action) {
-      const { data: { key } } = action
-      const deletedShopCar = state.filter((item) => item.key !== key)
-      return deletedShopCar
+      const { data: { key } } = action.payload
+      state.carList = state.carList.filter((item) => item.key !== key)
+      return state
     },
     selected(state, action) {
-      const { data: { key }, isSelect } = action
-      const newState2 = [...state]
-      newState2.find((item) => item.key === key).selected = isSelect
-      return newState2
+      const { data: { key }, isSelect } = action.payload
+      state.carList.find((item) => item.key === key).selected = isSelect
+      return state
     },
     allSelected(state, action) {
-      const { isSelect } = action
-      const newState3 = state.map((item) => {
+      const { isSelect } = action.payload
+      state.carList.map((item) => {
         item.selected = isSelect
         return item
       })
-      return newState3
+      return state
     },
   },
 })

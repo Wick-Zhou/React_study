@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Button } from 'antd'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { changeLogin } from '../store/feature/login'
+import { changeLogin } from '../store/feature/loginSlice'
 
 const UserPage = (props) => {
   const dispatch = useDispatch()

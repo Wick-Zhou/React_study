@@ -7,8 +7,8 @@ import { useDispatch } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { getLogin, getRegister } from '../service/api'
-import { changeLoading } from '../store/feature/globalLoading'
-import { changeLogin } from '../store/feature/login'
+import { changeLoading } from '../store/feature/globalLoadingSlice'
+import { changeLogin } from '../store/feature/loginSlice'
 
 const Login = (props) => {
   const [isModalVisible, setIsModalVisible] = useState(false)
@@ -24,7 +24,7 @@ const Login = (props) => {
       // console.log(res)
       if (res.data.isLogin) {
         message.success(res.data.msg)
-        dispatch(changeLogin({ username, isLoading: true }))
+        dispatch(changeLogin({ username, isLogin: true }))
         push('/shopcar')
         window.sessionStorage.setItem('isLogin', true)
         window.sessionStorage.setItem('username', username)

@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import { useState, useRef, useEffect } from 'react'
 import { getList } from '../service/api'
-import { changeLoading } from '../store/feature/globalLoading'
+import { changeLoading } from '../store/feature/globalLoadingSlice'
 import { addShopCar } from '../store/feature/countSlice'
 
 const { Search } = Input
@@ -14,10 +14,10 @@ const GoodsList = () => {
   const form = useRef()
   const [dataSource, setDataSource] = useState([])
   const dispatch = useDispatch()
-  const { carList } = useSelector((state) => state.count)
-  const { isLoading } = useSelector((state) => state.loading)
+  // const { carList } = useSelector((state) => state.count)
+  // const { isLoading } = useSelector((state) => state.loading)
   const { isLogin } = useSelector((state) => state.login)
-  console.log(carList, isLoading)
+  // console.log(carList, isLoading)
   useEffect(() => {
     dispatch(changeLoading({ isLoading: true }))
     getList().then((res) => {
@@ -69,7 +69,6 @@ const GoodsList = () => {
   }
 
   function addToShopCar(data) {
-    dispatch(addShopCar(data))
     if (isLogin) {
       dispatch(addShopCar(data))
       message.success('添加成功!')

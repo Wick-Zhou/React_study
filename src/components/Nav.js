@@ -13,8 +13,7 @@ const Nav = (props) => {
   const { history: { location } } = props
   const { isLogin } = useSelector((state) => state.login)
   pathname = location.pathname
-  // 用于导航栏高亮
-  // const navKey = pathname.substring(0, pathname.slice(1).indexOf('/') + 1) || pathname
+  // 用于当前路径导航栏高亮
   const navKey = (`/${pathname.split('/')[1]}`) || pathname
   return (
     <div style={{ width: 200 }}>
@@ -54,8 +53,4 @@ Nav.propTypes = {
   history: PropTypes.object.isRequired,
 }
 
-// const mapStateToProps = (state) => ({
-//   isLogin: state.loginReducer.isLogin,
-// })
-// export default connect(mapStateToProps, null)(withRouter(Nav))
 export default withRouter(Nav)

@@ -3,7 +3,11 @@ import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 const Detail = (props) => {
-  const { history: { goBack }, match: { params: { title } }, location: { state: imgUrl } } = props
+  const {
+    history: { goBack },
+    match: { params: { title } },
+    location: { state: { imgUrl } },
+  } = props
   return (
     <div>
       <Button onClick={() => { goBack() }}>{'<返回'}</Button>

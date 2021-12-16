@@ -9,12 +9,11 @@ import {
 
 const ShopCar = () => {
   const dispatch = useDispatch()
-  const { carList } = useSelector((state) => state.count)
+  const { carList = [] } = useSelector((state) => state.count)
   const deleteCarGood = (data) => {
     message.success('已成功删除!')
-    dispatch(deleteGood(data))
+    dispatch(deleteGood({ data }))
   }
-  // console.log(this.props)
   const columns = [
     {
       title: 'ID',
@@ -46,8 +45,8 @@ const ShopCar = () => {
       align: 'center',
       render: (key, data) => (
         <div>
-          <Button type="button" onClick={() => dispatch(oddCount(data))} style={{ marginRight: 20 }}>-</Button>
-          <Button type="button" onClick={() => dispatch(addCount(data))} style={{ marginLeft: 20 }}>+</Button>
+          <Button type="button" onClick={() => dispatch(oddCount({ data }))} style={{ marginRight: 20 }}>-</Button>
+          <Button type="button" onClick={() => dispatch(addCount({ data }))} style={{ marginLeft: 20 }}>+</Button>
         </div>
       ),
     },
@@ -81,10 +80,11 @@ const ShopCar = () => {
     }),
 
     onSelect: (data, isSelect) => {
-      dispatch(selected(data, isSelect))
+      // console.log(data, isSelect, selected)
+      dispatch(selected({ data, isSelect }))
     },
     onSelectAll: (isSelect) => {
-      dispatch(allSelected(isSelect))
+      dispatch(allSelected({ isSelect }))
     },
   }
 
@@ -117,15 +117,5 @@ const ShopCar = () => {
     </div>
   )
 }
-
-// const mapStateToProps = (state) => ({ carList: state.countReducer })
-
-// const mapDispatchToProps = (dispatch) => ({
-//   add: (data) => { dispatch(addCountAction(data)) },
-//   odd: (data) => { dispatch(oddCountAction(data)) },
-//   deleteGoodR: (data) => { dispatch(deleteFromShopCarAction(data)) },
-//   changeSelected: (data, selected) => { dispatch(changeSelectedAction(data, selected)) },
-//   changeAllSelected: (selected) => { dispatch(changeAllSelectedAction(selected)) },
-// })
 
 export default ShopCar

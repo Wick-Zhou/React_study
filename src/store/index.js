@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import countSliceReducer from './feature/countSlice'
-import loadingSliceReducer from './feature/globalLoading'
-import loginSliceReducer from './feature/login'
+import loadingSliceReducer from './feature/globalLoadingSlice'
+import loginSliceReducer from './feature/loginSlice'
 
 export default configureStore({
   reducer: {
