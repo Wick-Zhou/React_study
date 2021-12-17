@@ -1,7 +1,8 @@
-import { Route, Switch, Redirect } from 'react-router-dom'
+import { Route, Redirect } from 'react-router-dom'
 import './App.css'
 import { Layout } from 'antd'
 import { useSelector } from 'react-redux'
+import CacheRoute, { CacheSwitch } from 'react-router-cache-route'
 import Head from './components/Head'
 import Nav from './components/Nav'
 import Bottom from './components/Bottom'
@@ -22,7 +23,7 @@ const App = () => {
   return (
     <div style={{ height: '100%' }}>
       <Layout className="container">
-        <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}><Head /></Header>
+        <Header style={{ position: 'fixed', zIndex: 3, width: '100%' }}><Head /></Header>
         <Layout className="mainPage">
           <Sider
             style={{
@@ -36,8 +37,8 @@ const App = () => {
             <Nav />
           </Sider>
           <Content style={{ marginLeft: 200, marginTop: 64 }}>
-            <Switch>
-              <Route exact path="/goodlist" component={GoodsList} />
+            <CacheSwitch>
+              <CacheRoute saveScrollPosition exact path="/goodlist" component={GoodsList} />
               <Route
                 exact
                 path="/login"
@@ -76,7 +77,7 @@ const App = () => {
                   <Route key={item} path={item.path} component={item.component}></Route>
                 )
               } */}
-            </Switch>
+            </CacheSwitch>
           </Content>
         </Layout>
         <Footer className="footer">

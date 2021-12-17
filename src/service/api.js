@@ -1,20 +1,26 @@
 import axios from 'axios'
 import Nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
+import { message } from 'antd'
 
 axios.interceptors.request.use(
   (config) => {
     Nprogress.start()
     return config
   },
-  (err) => Promise.reject(err).catch(() => { Nprogress.done() }),
+  (err) => Promise.reject(err).catch(() => {
+    Nprogress.done()
+  }),
 )
 axios.interceptors.response.use(
-  (config) => {
+  (res) => {
     Nprogress.done()
-    return config
+    return res
   },
-  (err) => Promise.reject(err).catch(() => { Nprogress.done() }),
+  (err) => Promise.reject(err).catch(() => {
+    message.error('Failed to connect server')
+    Nprogress.done()
+  }),
 )
 
 axios.defaults.headers.post['Content-Type'] = 'application/json'
